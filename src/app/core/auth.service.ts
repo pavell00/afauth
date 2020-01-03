@@ -31,7 +31,7 @@ export class AuthService {
             
   }
 
-  ///// Login/Signup //////
+    ///// Login/Signup //////
 
   googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
