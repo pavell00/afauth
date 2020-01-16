@@ -23,6 +23,7 @@
   <div *ngIf="auth.user$ | async as user">
     <h3>Howdy, {{ user.displayName }}</h3>
     <img  src="assets/213116.jpg" width="50px">
+    <p>email: {{ user.email }}</p>
     <p>UID: {{ user.uid }}</p>
     <button (click)="auth.signOut()" class="button">Logout</button>
     <a routerLink="/work" routerLinkActive="active">Work</a>

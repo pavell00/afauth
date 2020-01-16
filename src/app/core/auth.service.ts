@@ -50,6 +50,7 @@ export class AuthService {
     this.isLoggedIn = false;
     this.afAuth.auth.signOut();
     this.router.navigate(['']);
+    localStorage.removeItem('user');
   }
 
   private updateUserData(user) {
@@ -62,6 +63,7 @@ export class AuthService {
         subscriber: true
       }
     }
+    localStorage.setItem('user', JSON.stringify(user));
     return userRef.set(data, { merge: true })
   }
 
