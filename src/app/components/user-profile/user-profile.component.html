@@ -28,23 +28,7 @@
     <button (click)="auth.signOut()" class="button">Logout</button>
     <a routerLink="/work" routerLinkActive="active">Work</a>
     <hr>
-
-    Subscriber: 
-    <span class="tag" [class.is-success]="user.roles?.subscriber">
-      {{ user.roles?.subscriber }}
-    </span><br>
-
-    Editor: 
-    <span class="tag" [class.is-success]="user.roles?.editor">
-      {{ user.roles?.editor }}
-    </span><br>
-
-    Admin: 
-    <span class="tag" [class.is-success]="user.roles?.admin">
-      {{ user.roles?.admin }}
-    </span><br>
-
   </div>
- 
+
 </ng-template>
 
