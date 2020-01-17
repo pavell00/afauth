@@ -42,6 +42,9 @@
     <mat-sidenav-content>
       <!-- <mat-sidenav-content [ngClass]="(isLogin==false)?'marg1':'marg2'"> -->
       <!-- <user-login></user-login> -->
+        <ngx-auth-firebaseui (onSuccess)="printUser($event)"
+                      (onError)="printError()">
+        </ngx-auth-firebaseui>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>

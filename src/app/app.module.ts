@@ -10,6 +10,8 @@ import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
+import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
+
 import { AppComponent } from './app.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WorkComponent } from './components/work/work.component';
@@ -30,7 +32,8 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     AngularFirestoreModule,
     AngularFireAuthModule,
     MaterialModule,
-    CoreModule
+    CoreModule,
+    NgxAuthFirebaseUIModule.forRoot(environment.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]
