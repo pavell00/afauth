@@ -24,8 +24,8 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "node_modules/ngx-auth-firebaseui/dist/assets/",
-                "output": "src/assets/"
+                "input": "node_modules/ngx-auth-firebaseui/assets/",
+                "output": "./assets/"
               }
             ],
             "styles": [
