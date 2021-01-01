@@ -25,6 +25,7 @@
     <img  src="assets/213116.jpg" width="50px">
     <p>email: {{ user.email }}</p>
     <p>UID: {{ user.uid }}</p>
+    <p>Role: {{ user.roles | json }}</p>
     <button (click)="auth.signOut()" class="button">Logout</button>
     <a routerLink="/work" routerLinkActive="active">Work</a>
     <hr>
