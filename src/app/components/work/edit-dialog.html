@@ -1,0 +1,15 @@
+<h3 mat-dialog-title>Корректировка
+  <div>{{data.id}}</div>
+</h3>
+<div mat-dialog-content>
+    <mat-form-field>
+    <input matInput [(ngModel)]="data.title" placeholder="Title">
+  </mat-form-field>
+    <mat-form-field>
+    <input matInput [(ngModel)]="data.body" placeholder="Body of post">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="matdialogbutton">
+  <button mat-button (click)="onNoClick()">No</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+</div>

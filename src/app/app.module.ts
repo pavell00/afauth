@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { CoreModule } from './core/core.module';
 import { MaterialModule } from './core/material.module';
@@ -14,7 +15,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 import { AppComponent } from './app.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { WorkComponent } from './components/work/work.component';
+import { WorkComponent, DialogOverviewExampleDialog } from './components/work/work.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 
 @NgModule({
@@ -22,7 +23,8 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     AppComponent,
     UserProfileComponent,
     WorkComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    DialogOverviewExampleDialog
   ],
   imports: [
     BrowserModule,
@@ -33,9 +35,11 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     AngularFireAuthModule,
     MaterialModule,
     CoreModule,
-    NgxAuthFirebaseUIModule.forRoot(environment.firebaseConfig)
+    NgxAuthFirebaseUIModule.forRoot(environment.firebaseConfig),
+    FormsModule
   ],
   providers: [],
+  entryComponents: [DialogOverviewExampleDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

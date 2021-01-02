@@ -1,1 +1,15 @@
-<p>work works!</p>
+<ul>
+    <li *ngFor="let post of posts">
+    {{post.title}} {{post.body}}
+        <button mat-mini-fab color="warn" (click)="onDelete(post.id)">
+            <i class="material-icons">delete</i>
+        </button>
+        <button mat-mini-fab color="warn" *ngIf="auth.canEdit(user)" (click)="openDialog(post)">
+            <i class="material-icons">edit</i>
+        </button>
+        <button mat-mini-fab color="accent" (click)="openDialog(post)">
+            <i class="material-icons">edit</i>
+        </button>
+    </li>
+</ul>
+<!-- {{ user | json}} -->
