@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class AuthService {
 
   private oAuthLogin(provider) {
     this.isLoggedIn = true;
-    return this.afAuth.auth.signInWithPopup(provider)
+    return this.afAuth.signInWithPopup(provider)
       .then((credential) => {
         this.updateUserData(credential.user)
       })
@@ -48,7 +48,7 @@ export class AuthService {
 
   signOut() {
     this.isLoggedIn = false;
-    this.afAuth.auth.signOut();
+    this.afAuth.signOut();
     this.router.navigate(['']);
     localStorage.removeItem('user');
   }
