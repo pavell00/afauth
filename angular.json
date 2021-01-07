@@ -130,5 +130,8 @@
       }
     }
   },
-  "defaultProject": "afauth"
+  "defaultProject": "afauth",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WorkComponent, DialogOverviewExampleDialog } from './components/work/work.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
+import { AdminPageComponent } from './components/admin-page/admin-page.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     UserProfileComponent,
     WorkComponent,
     WelcomeComponent,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,
