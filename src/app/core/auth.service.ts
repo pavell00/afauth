@@ -43,15 +43,22 @@ export class AuthService {
     return this.afAuth.signInWithPopup(provider)
       .then((credential) => {
         this.updateUserData(credential.user)
-      })
+      }).catch(
+        (error) => window.alert(error)
+      )
   }
 
   signOut() {
     this.isLoggedIn = false;
-    this.afAuth.signOut();
-    this.router.navigate(['']);
-    localStorage.removeItem('user');
-  }
+    this.afAuth.signOut().then(
+      () => {
+        this.router.navigate(['welcome']);
+        localStorage.removeItem('user');
+      }
+    ).catch(
+      (error) => window.alert(error)
+    )
+   }
 
   private updateUserData(user) {
     // Sets user data to firestore on login

@@ -12,7 +12,7 @@ import { AdminPageComponent } from './components/admin-page/admin-page.component
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent},
-  { path: 'work', component: WorkComponent, canActivate: [AuthGuard] },
+  { path: 'work', component: WorkComponent, canActivate: [CanReadGuard] },
   { path: 'admin-page', component: AdminPageComponent, canActivate: [AdminGuard] },
   { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
   { path: '',  redirectTo: '/welcome',  pathMatch: 'full' }

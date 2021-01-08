@@ -39,6 +39,14 @@ export class WorkComponent implements OnInit {
     )
   }
 
+  onDelete(docId: string) {
+    this.postService.deletePost(docId);
+  }
+
+  createPost() {
+    this.postService.createPost();
+  }
+
   openDialog(item: Post): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: '250px',

@@ -30,11 +30,24 @@ export class PostService {
     }
   }
 
-  createPost(p: Post) {
-
+  async createPost() {
+    var postRef = this.afs.collection('posts')
+    try {
+      await postRef.add({
+        title: 'new post',
+        body: 'lorem ipsum'
+      });
+    } catch (error) {
+      console.error("Error adding new post: ", error);
+    }
   }
 
-  deletePost(id: string) {
-
+  async deletePost(id: string) {
+    var postRef = this.afs.collection('posts').doc(id)
+    try {
+      await postRef.delete()
+    } catch (error) {
+      console.error("Error deleting post:  you're haven't access or ", error);
+    }
   }
 }
