@@ -1,6 +1,6 @@
 <ul>
     <li *ngFor="let post of posts">
-    {{post.title}} {{post.body}}
+    {{post.title}} {{post.body}} {{post.user}}
         <button mat-mini-fab color="warn" (click)="onDelete(post.id)">
             <i class="material-icons">delete</i>
         </button>

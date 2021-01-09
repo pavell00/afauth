@@ -44,13 +44,18 @@ export class WorkComponent implements OnInit {
   }
 
   createPost() {
-    this.postService.createPost();
+    let p: Post = {
+      title: 'new post',
+      body: 'lorem ipsum',
+      user: this.user.uid
+    }
+    this.postService.createPost(p);
   }
 
   openDialog(item: Post): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: '250px',
-      data: {id: item.id, title: item.title, body: item.body}
+      data: {id: item.id, title: item.title, body: item.body, user: item.user}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -63,6 +68,7 @@ export class WorkComponent implements OnInit {
           if(this.posts[i].id == this.newData.id) {
             this.posts[i].title = this.newData.title;
             this.posts[i].body = this.newData.body;
+            this.posts[i].user = this.user.uid;
           }
         }
         //update data in DB Collection

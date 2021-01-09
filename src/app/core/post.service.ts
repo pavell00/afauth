@@ -10,9 +10,7 @@ import { toPublicName } from '@angular/compiler/src/i18n/serializers/xmb';
 })
 export class PostService {
 
-  constructor(private afs: AngularFirestore) {
-
-  }
+  constructor(private afs: AngularFirestore) { }
 
   getPosts() {
     return this.afs.collection('posts').snapshotChanges();
@@ -23,19 +21,21 @@ export class PostService {
     try {
       await lineRef.update({
         title: p.title,
-        body: p.body
+        body: p.body,
+        user: p.user
       })
     } catch (error) {
       console.error("Error updating document:  you're haven't access or ", error);
     }
   }
 
-  async createPost() {
+  async createPost(p: Post) {
     var postRef = this.afs.collection('posts')
     try {
       await postRef.add({
-        title: 'new post',
-        body: 'lorem ipsum'
+        title: p.title,
+        body: p.body,
+        user: p.user
       });
     } catch (error) {
       console.error("Error adding new post: ", error);
@@ -50,4 +50,38 @@ export class PostService {
       console.error("Error deleting post:  you're haven't access or ", error);
     }
   }
+
+/*   async updatePost_old(p: Post, currentUserId: string) {
+    this.isDocOwner(p.id, currentUserId).then(
+      res => {
+        if (res = true) {
+          var lineRef = this.afs.collection('posts').doc(p.id)
+          try {
+            lineRef.update({
+              title: p.title,
+              body: p.body,
+              user: p.user
+            })
+          } catch (error) {
+            console.error("Error updating document:  you're haven't access or ", error);
+          }
+      }
+    }), 
+    (error: Error) => {
+      console.error("Error updating document:  you're haven't access  ", error);
+    }
+  } */
+
+/*   async isDocOwner (id: string, currentUserId: string) {
+    return await this.afs.collection('posts').doc(id).get().toPromise().then(
+      res => {
+        if (currentUserId == res.data().user) {
+          return true
+        } else {
+          return false
+        }
+      }
+    )
+  } */
+
 }
