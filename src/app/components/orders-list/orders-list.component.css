@@ -1,0 +1,16 @@
+table {
+    width: -webkit-fill-available;
+}
+
+.mat-row:hover {
+  background-color: lightgrey;
+  cursor: pointer;
+}
+
+.order-done {
+    background-color: rgb(245, 255, 249)
+}
+
+.order-open {
+    background-color: rgb(247, 236, 230)
+}

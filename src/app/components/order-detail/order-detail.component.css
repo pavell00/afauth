@@ -1,0 +1,14 @@
+.mat-form-field {
+  font-size: 12px;
+  width: 27%;
+}
+
+.orderParams {
+    font-size: 14px;
+    width: 20%;
+    display: inline-block;
+}
+
+table {
+  width: -webkit-fill-available;
+}

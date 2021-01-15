@@ -19,6 +19,13 @@ import { WorkComponent, DialogOverviewExampleDialog } from './components/work/wo
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 
+import { MenuListComponent } from './components/menu-list/menu-list.component';
+import { MenuItemCreateComponent } from './components/menuItem-create/menuItem-create.component';
+import { OrderCreateComponent } from './components/order-create/order-create.components';
+import { OrderDetailComponent } from './components/order-detail/order-detail.component';
+import { OrderListComponent } from './components/orders-list/orders-list.component';
+import { PrintFormComponent } from './components/print-form/print-form.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +33,9 @@ import { AdminPageComponent } from './components/admin-page/admin-page.component
     WorkComponent,
     WelcomeComponent,
     DialogOverviewExampleDialog,
-    AdminPageComponent
+    AdminPageComponent, MenuListComponent, MenuItemCreateComponent,
+    OrderCreateComponent, OrderDetailComponent, OrderListComponent,
+    PrintFormComponent
   ],
   imports: [
     BrowserModule,

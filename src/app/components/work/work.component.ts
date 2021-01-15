@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Post } from '../../core/post';
-import { User } from '../../core/user';
-import { PostService } from '../../core/post.service'
-import { AuthService } from '../../core/auth.service';
+import { Post } from '../../core/models/post';
+import { User } from '../../core/models/user';
+import { PostService } from '../../core/services/post.service'
+import { AuthService } from '../../core/services/auth.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {

@@ -1,0 +1,156 @@
+<ng-container *ngIf="restaurant==='almondo';  then almondo; else queen">
+</ng-container>
+
+<div class="print">
+  <ng-template #almondo>
+    <hr width="100%" style="border-bottom: 2px dashed #C0C0C0" color="#FFFFFF" size="6">
+    <div class="almondo" style="text-align: center;">
+        <pre>Almondo</pre>
+        <pre>Restaurant&Club</pre>
+    </div>
+    
+    <div class="almondo">
+      <p>Зал: {{ place }}</p> 
+      <p><b>Стол: {{ orderNo }}</b></p>
+      <div class="almondo" style="display: flex; justify-content: space-between;">
+        <div class="almondo">Открыт: {{ orderDate }}</div> <div class="almondo">Гостей: {{ orderGuests }}</div>
+      </div>
+      
+      <p>Офиц: {{ waiter }}</p>
+      <p>Напечатал: {{ printed }}</p>
+      <p>Печать: {{ printTime }}</p>
+    </div>
+
+    <table style="line-height: 1.1; border-collapse: collapse; width: 100%;">
+      <thead style="text-align: left;">
+        <!--<tr>
+          <th>Перечень заказа</th>
+        </tr>-->
+        <th style="border-bottom: 1px solid black;">Наименование</th>
+        <th style="text-align: center; border-bottom: 1px solid black;">К-во</th>
+        <th style="text-align: right; border-bottom: 1px solid black;">Сумма</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let emp of selectedMenu">
+          <td >{{emp.name}}</td>
+          <td style="text-align: center">{{emp.qty}}</td>
+          <td style="text-align: right;">{{(emp.price * emp.qty).toFixed(2)}}</td>
+        </tr>
+        <tr>
+          <td style="line-height: 0.2; text-align: right; border-top: 1px solid black;"></td>
+          <td style="line-height: 0.2; text-align: right; border-top: 1px solid black;"></td>
+          <td style="line-height: 0.2; text-align: right; border-top: 1px solid black;"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!--<table style="line-height: 1.1; border-collapse: collapse;">
+      <thead style="text-align: left; font-size: 18px;">
+        <th style="border-top: 1px solid black; text-align: center;"><b>К оплате:</b></th>
+        <th style="border-top: 1px solid black; text-align: right;"><b>{{ orderSum }}</b></th>
+      </thead>
+    </table>-->
+    <div class="almondo" style="border-top: 1px solid black; padding-left: 100px; font-size: 19px; margin-top: 1px;">
+      <b style="line-height:20px">К оплате:</b>
+      <b style="line-height:20px; float: right;">{{ orderSumToPay }}</b>
+    </div>
+
+    <div class="almondo" style="margin-top: 20px; text-align: center;">
+      <p><b>{{footerStr}}</b></p>
+      <p><b>{{footerStr1}}</b></p>
+      <p><b>{{footerStr2}}</b></p>
+    </div>
+    <hr width="100%" style="border-bottom: 2px dashed #C0C0C0" color="#FFFFFF" size="6">
+  </ng-template>
+
+  <ng-template #queen>
+    <div style="display: flex; justify-content: center">
+      <img class="imagequeen" src="assets/queen.jpg">
+    </div>
+    <p style="font-family: Calibri Light; margin-top: 0px; margin-bottom: 0px; font-size: 12px;">H</p>
+    <!--<hr width="100%" style="border-bottom: 2px dashed #C0C0C0" color="#FFFFFF" size="6">-->
+    <div class="queenheader" style="text-align: center; word-spacing: 3px;">
+        <p>Queen Country Club</p>
+        <p>пгт. Козын, Столичное шоссе, 55</p>
+        <p>+38-068-1111-888</p>
+    </div>
+    
+    <div style="font-size: 10px; margin-top: 21px;">
+      <div style="display: flex; justify-content: space-between;font-family: Arial Narrow; margin-bottom: -2em;">
+        <p>Чек #{{ orderCheck }}</p>
+        <p>Стол # {{ orderNo }}</p>
+        <p>Гостей {{ orderGuests }}</p>
+      </div>
+        
+      <div style="display: flex; justify-content: space-between;font-family: Arial Narrow;">
+        <p>{{ shortOrderDate }}</p>
+        <p>Открыт: {{ timeOpenTable }}</p>
+        <p>Печать: {{ shortPrintTime }}</p>
+      </div>
+    </div>
+    
+    <div style="font-family: Arial Narrow; line-height: 0.4px; margin-top: -14px; font-size: 10px">
+      <div style="display: flex; justify-content: left;">
+          <p>Кассир:</p>
+          <p style=" text-indent: 1.5em;"> {{ printed }}</p>
+      </div>
+      <p style="margin-top: 1px;">Официант: {{ waiter }}</p>
+    </div>
+    
+    <table style="line-height: 1.1; border-collapse: collapse; width: 100%; font-family: Arial Narrow;">
+      <thead style="text-align: left; font-size: 10px; line-height: 2em;">
+        <!--<tr>
+          <th>Перечень заказа</th>
+        </tr>-->
+        <th style="border-bottom: 1px dashed black;font-weight:normal;width:50%">Блюдо</th>
+        <th style="text-align: right; border-bottom: 1px dashed black;font-weight:normal;width:25%">Кол-во</th>
+        <th style="text-align: right; border-bottom: 1px dashed black;font-weight:normal;width:25%">Сумма</th>
+      </thead>
+      <tbody style="font-size: 10px">
+        <tr style="line-height: 2em;"></tr>
+        <tr *ngFor="let emp of selectedMenu">
+          <td >{{emp.name}}</td>
+          <td style="text-align: right">{{emp.qty | number : '1.2'}}</td>
+          <td style="text-align: right">{{(emp.price * emp.qty).toFixed(2)}}</td>
+        </tr>
+        <!-- <tr>
+          <td style="line-height: 0.2; text-align: right; border-top: 1px dashed black;"></td>
+          <td style="line-height: 0.2; text-align: right; border-top: 1px dashed black;"></td>
+          <td style="line-height: 0.2; text-align: right; border-top: 1px dashed black;"></td>
+        </tr> -->
+      </tbody>
+    </table>
+
+    <hr width="100%" style="border-top: 1px dashed black; margin-bottom: 1px; margin-top: 5px;">
+    <!--<table style="line-height: 1.1; border-collapse: collapse;">
+      <thead style="text-align: left; font-size: 18px;">
+        <th style="border-top: 1px solid black; text-align: center;"><b>К оплате:</b></th>
+        <th style="border-top: 1px solid black; text-align: right;"><b>{{ orderSum }}</b></th>
+      </thead>
+    </table>-->
+    <div style="display: flex; justify-content: space-between; font-size: 10px;
+      line-height: 0em;margin-top: -2px;margin-bottom: -9px; font-family: Arial Narrow;">
+      <p>Всего:</p>
+      <p>{{ orderSumToPay }}</p>
+    </div>
+    <hr style="line-height: 0.2; border-top: 1px dashed black;">
+    <div  style="display: flex; justify-content: space-between; margin-top: -10px; 
+      margin-bottom: -16px; font-family: Arial Narrow; line-height: 0em; font-size: 10px;">
+      <p>Итого к оплате:</p>
+      <p>{{ orderSumToPay }}</p>
+    </div>
+
+    <div  style="display: flex; justify-content: space-between; margin-bottom: -14px;
+      font-family: Arial Narrow; font-size: 10px;">
+      <p>Гривна:</p>
+      <p>{{ orderSumToPay }}</p>
+    </div>
+    <hr style="line-height: 0.2; border-top: 1px dashed black;">
+    <div style="text-align: center; font-family: Arial Narrow; line-height: 0em;
+      font-size: 10px;">
+      <p>Вознаграждение официанту приветствуется</p>
+      <p>но всегда остается на ваше усмотрение.</p>
+    </div>
+    <!--<hr width="100%" style="border-bottom: 2px dashed #C0C0C0" color="#FFFFFF" size="6">-->
+  </ng-template>
+</div>
