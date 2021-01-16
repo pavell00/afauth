@@ -1,8 +1,8 @@
 <p style="display: flex; justify-content: center;">Заказы официанта</p>
 <table mat-table [dataSource]="orders" class="mat-elevation-z8">
-  <ng-container matColumnDef="TableNo">
+  <ng-container matColumnDef="tableNo">
     <th mat-header-cell *matHeaderCellDef>Стол</th>
-    <td mat-cell *matCellDef="let element" (click)="editOrder(element.id)"> {{element.TableNo}} </td>
+    <td mat-cell *matCellDef="let element" (click)="editOrder(element.id)"> {{element.tableNo}} </td>
   </ng-container>
 
   <ng-container matColumnDef="OrderDate">

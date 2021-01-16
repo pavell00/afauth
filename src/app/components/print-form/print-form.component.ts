@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute }     from '@angular/router';
+//import { timeStamp } from 'console';
 import { menuItem } from '../../core/models/menuItem';
+import { Params } from '../../core/models/params2';
 import { DataService } from '../../core/services/data.service';
 
 @Component({
@@ -9,7 +11,7 @@ import { DataService } from '../../core/services/data.service';
   styleUrls: ['./print-form.component.css']
 })
 export class PrintFormComponent implements OnInit {
-  selectedMenu: menuItem[] = [];;
+  selectedMenu: menuItem[] = [];
   orderSumToPay: number;
   orderDate: string;
   orderNo: string;
@@ -26,6 +28,7 @@ export class PrintFormComponent implements OnInit {
   timeOpenTable: string = '';
   shortPrintTime: string = '';
   orderCheck: string = '';
+  currentParams: Params;
 
   constructor(private route: ActivatedRoute, private dataService: DataService) { }
 
@@ -48,9 +51,10 @@ export class PrintFormComponent implements OnInit {
     });
     this.dataService.getParams().get().toPromise().then(
       param => {//console.log("params data:", doc.data())
-        this.footerStr = param.data().footerStr;
+/*         this.footerStr = param.data().footerStr;
         this.footerStr1 = param.data().footerStr1;
-        this.footerStr2 = param.data().footerStr2;
+        this.footerStr2 = param.data().footerStr2; */
+        this.currentParams = param.data() as Params
       })
   }
 

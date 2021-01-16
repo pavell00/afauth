@@ -19,15 +19,19 @@ import { PrintFormComponent } from './components/print-form/print-form.component
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent},
-  { path: 'work', component: WorkComponent, canActivate: [CanReadGuard] },
-  { path: 'menu-list', component: MenuListComponent },
-  { path: 'menuItem-create', component: MenuItemCreateComponent },
-  { path: 'order-create', component: OrderCreateComponent },
-  { path: 'order-detail', component: OrderDetailComponent },
-  { path: 'orders-list', component: OrderListComponent},
-  { path: 'print-form', component: PrintFormComponent },
+  { path: 'work', component: WorkComponent, canActivate: [CanReadGuard]},
+  //{ path: 'work/orders-list', component: WorkComponent, canActivate: [CanReadGuard]},
+  { path: 'work', component: WorkComponent, canActivate: [CanReadGuard], children: [
+    { path: 'orders-list', component: OrderListComponent },
+    { path: 'order-detail', component: OrderDetailComponent },
+    { path: 'menu-list', component: MenuListComponent },
+    { path: 'menuItem-create', component: MenuItemCreateComponent },
+    { path: 'order-create', component: OrderCreateComponent },
+    { path: 'print-form', component: PrintFormComponent },
+  ] },
+  //{ path: 'work/order-detail', component: OrderDetailComponent },
   { path: 'admin-page', component: AdminPageComponent, canActivate: [AdminGuard] },
-  { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  { path: 'user-profile', component: UserProfileComponent },
   { path: '',  redirectTo: '/welcome',  pathMatch: 'full' }
 ];
 

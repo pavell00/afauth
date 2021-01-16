@@ -17,22 +17,26 @@
 </button> -->
 <!-- {{ user | json}} -->
 <div *ngIf="auth.user$ | async">
-    <button mat-mini-fab color="primary" [routerLink]="['/orders-list']">
+    <button mat-mini-fab color="primary" [routerLink]="['orders-list']">
       <i class="material-icons">list</i>
     </button>
-    <button mat-mini-fab color="accent" [routerLink]="['/order-create']">
+    <button mat-mini-fab color="accent" [routerLink]="['order-create']">
       <i class="material-icons">playlist_add</i>
     </button>
-    <button mat-mini-fab color="primary" [routerLink]="['/menu-list']">
+    <button mat-mini-fab color="primary" [routerLink]="['menu-list']">
       <i class="material-icons">format_list_bulleted</i>
     </button>
     <button mat-mini-fab color="primary" *ngIf="isShowPRN" (click)="print()">
       <i class="material-icons">print</i>
     </button>
-    <button mat-mini-fab color="primary" [routerLink]="['/user-profile']">
+<!--     <button mat-mini-fab color="primary" [routerLink]="['user-profile']">
       <i class="material-icons">settings</i>
-    </button>
+    </button> -->
 <!--       <button mat-mini-fab color="primary" [routerLink]="['/test']">
       <i class="material-icons">format_list_bulleted</i>
     </button> -->
+</div>
+
+<div>
+  <router-outlet></router-outlet>
 </div>

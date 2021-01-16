@@ -32,8 +32,9 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   displayedCols = ['name', 'price', 'qty', 'sum', 'Actions'];
   subscription: Subscription;
 
+  currentOrder: Order;
   orderDate: string = new Date().toLocaleString();
-  orderNo: string = '1';
+  tableNo: string = '1';
   orderId: string;
   orderSum: number = 0.0;
   orderDiscount: number = 0.0;
@@ -42,6 +43,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   orderSumToPay: number = 1.0;
   orderSumService: number = 1.0;
   orderGuests: number = 1;
+
   newData: any;
   printTime: string = '';
   place: string = '';
@@ -97,7 +99,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
       this.firestore.collection('orders').doc(this.orderId).update({
         //id: this.orderId,
         OrderDate: this.orderDate, 
-        TableNo: this.orderNo,
+        TableNo: this.tableNo,
         sumOrder: this.orderSum,
         discountOrder: this.orderDiscount,
         sumDiscount: this.orderDiscountSum,
@@ -148,7 +150,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
       { selectedMenu: JSON.stringify(this.selectedMenu), 
         orderSumToPay: this.orderSumToPay.toFixed(2),
         orderDate: this.orderDate,
-        orderNo: this.orderNo,
+        tableNo: this.tableNo,
         orderGuests: this.orderGuests,
         printTime: this.printTime,
         place: this.place,
@@ -216,9 +218,9 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
     if (this.orderId) {
         //let docRef = this.firestore.collection('orders').doc(this.orderId);
         this.dataService.getOrder(this.orderId).get().toPromise().then(
-          doc => {//console.log("Document data:", doc.data())
-            //this.orderId = this.orderId;
-            this.orderNo = doc.data().TableNo;
+          doc => {
+            //console.log("Document data:", doc.data())
+/*          this.tableNo = doc.data().tableNo;
             this.orderDate = doc.data().OrderDate;
             this.orderIsDone = doc.data().isDone;
             this.orderSum = doc.data().sumOrder;
@@ -233,7 +235,22 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
             this.waiter = doc.data().waiter;
             this.done = doc.data().isDone;
             this.doneInfo = this.done ? 'Закрыт': 'Открыт';
-            this.orderCheck = doc.data().check;
+            this.orderCheck = doc.data().check; */
+            this.currentOrder = doc.data() as Order
+            this.tableNo = this.currentOrder.tableNo
+            this.orderDate = this.currentOrder.OrderDate.toString()
+            this.orderIsDone = this.currentOrder.isDone
+            this.orderSum = this.currentOrder.sumOrder
+            this.orderDiscount = this.currentOrder.discountOrder
+            this.orderDiscountSum = this.currentOrder.sumOrder
+            this.orderSumService = this.currentOrder.sumService
+            this.orderSumToPay = this.currentOrder.sumToPay
+            this.orderGuests = this.currentOrder.guests
+            this.printTime = this.currentOrder.printTime
+            this.place = this.currentOrder.place
+            this.printed = this.currentOrder.printed
+            this.waiter = this.currentOrder.waiter
+            this.orderCheck = this.currentOrder.check
           }
         )
       }

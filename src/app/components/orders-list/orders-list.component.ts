@@ -25,7 +25,7 @@ export class OrderListComponent implements OnInit {
   constructor(private dataService: DataService, private router : Router,private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
-    this.displayedColumns = ['TableNo','OrderDate','sumOrder','discountOrder','Actions'];
+    this.displayedColumns = ['tableNo','OrderDate','sumOrder','discountOrder','Actions'];
     this.columnsToDisplay = this.displayedColumns.slice();
     this.dataService.getOrders().subscribe(actionArray => {
       this.orders = actionArray.map(item => {
@@ -44,12 +44,8 @@ export class OrderListComponent implements OnInit {
 
   editOrder(id: string) {
     let navigationExtras: NavigationExtras = { queryParams: {'orderid': id} };
-    this.router.navigate(['/order-detail'], navigationExtras);
+    this.router.navigate(['work/order-detail'], navigationExtras);
   }
-
-  
-
-  
 
   buildLine(item: menuItem, itemName: string): string {
     let Sqty: number = item.qty * 1.0; //default value;
