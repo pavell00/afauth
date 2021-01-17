@@ -316,7 +316,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   }
 
   openDialog(item: menuItem): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+    const dialogRef = this.dialog.open(DialogEditOrderItem, {
       width: '250px',
       data: {id: item.id, name: item.name, price: item.price, qty: item.qty, discount: item.discount}
     });
@@ -365,13 +365,13 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   templateUrl: './edit-dialog.html',
   styleUrls: ['./edit-dialog.css']
 })
-export class DialogOverviewExampleDialog {
+export class DialogEditOrderItem {
   price: number = 0
   qty: number = 0
   discount: number = 0
 
   constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    public dialogRef: MatDialogRef<DialogEditOrderItem>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   onNoClick(): void {

@@ -4,7 +4,6 @@ import { User } from '../../core/models/user';
 import { PostService } from '../../core/services/post.service'
 import { AuthService } from '../../core/services/auth.service';
 import { DataService } from '../../core/services/data.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
   id: string;
@@ -24,7 +23,7 @@ export class WorkComponent implements OnInit {
   public isShowPRN: boolean ;
 
   constructor(private postService: PostService, public auth: AuthService, 
-    private dataService: DataService, public dialog: MatDialog) { }
+    private dataService: DataService) { }
 
   ngOnInit() {
     this.postService.getPosts().subscribe(
@@ -59,53 +58,6 @@ export class WorkComponent implements OnInit {
   print() {
     this.dataService.changeStatePrnButton(false);
     window.print();
-  }
-
-  openDialog(item: Post): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '250px',
-      data: {id: item.id, title: item.title, body: item.body, user: item.user}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      //console.log('The dialog was closed');
-      if (result) {
-        this.newData = result;
-        //console.log(this.newData);
-        //refresh data in array
-        for(let i = 0; i < this.posts.length; i++) {
-          if(this.posts[i].id == this.newData.id) {
-            this.posts[i].title = this.newData.title;
-            this.posts[i].body = this.newData.body;
-            this.posts[i].user = this.user.uid;
-          }
-        }
-        //update data in DB Collection
-        //console.log(this.orderId)
-        this.postService.updatePost(this.newData)
-      }
-    });
-  }
-
-}
-
-
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  templateUrl: './edit-dialog.html',
-  styleUrls: ['./edit-dialog.css']
-})
-export class DialogOverviewExampleDialog {
-  id: string;
-  title: string;
-  body: string;
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 
 }

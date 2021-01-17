@@ -15,14 +15,14 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 import { AppComponent } from './app.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { WorkComponent, DialogOverviewExampleDialog } from './components/work/work.component';
+import { WorkComponent } from './components/work/work.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
 
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { MenuItemCreateComponent } from './components/menuItem-create/menuItem-create.component';
 import { OrderCreateComponent } from './components/order-create/order-create.components';
-import { OrderDetailComponent } from './components/order-detail/order-detail.component';
+import { OrderDetailComponent, DialogEditOrderItem } from './components/order-detail/order-detail.component';
 import { OrderListComponent } from './components/orders-list/orders-list.component';
 import { PrintFormComponent } from './components/print-form/print-form.component';
 
@@ -32,7 +32,7 @@ import { PrintFormComponent } from './components/print-form/print-form.component
     UserProfileComponent,
     WorkComponent,
     WelcomeComponent,
-    DialogOverviewExampleDialog,
+    DialogEditOrderItem,
     AdminPageComponent, MenuListComponent, MenuItemCreateComponent,
     OrderCreateComponent, OrderDetailComponent, OrderListComponent,
     PrintFormComponent
@@ -67,7 +67,7 @@ import { PrintFormComponent } from './components/print-form/print-form.component
     FormsModule
   ],
   providers: [],
-  entryComponents: [DialogOverviewExampleDialog],
+  entryComponents: [DialogEditOrderItem],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
