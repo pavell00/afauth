@@ -46,7 +46,7 @@
     <router-outlet></router-outlet>
     </mat-sidenav-content>
         <ngx-auth-firebaseui (onSuccess)="printUser($event)"
-        (onError)="printError()">
+        (onError)="printError($event)">
     </ngx-auth-firebaseui>
   </mat-sidenav-container>
 </div>

@@ -16,6 +16,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 
   @NgModule({
+    imports: [
+      MatListModule, MatSnackBarModule, MatSlideToggleModule,
+      MatIconModule, MatButtonModule,
+      MatFormFieldModule, MatTableModule, MatDialogModule,
+      MatInputModule, MatSidenavModule, MatToolbarModule,
+      MatSelectModule, MatCheckboxModule,
+      MatExpansionModule
+    ],
     exports: [
       MatSidenavModule,
       MatIconModule,

@@ -1,14 +1,16 @@
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
-import { Order } from '../../core/models/order';
-import { menuItem } from '../../core/models/menuItem';
-import { DataService } from '../../core/services/data.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router, NavigationExtras }     from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription, Observable, Subject } from 'rxjs';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { Order } from '../../core/models/order';
+import { menuItem } from '../../core/models/menuItem';
+import { DataService } from '../../core/services/data.service';
 
 export interface DialogData {
   id: string;

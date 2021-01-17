@@ -3,6 +3,7 @@ import { Post } from '../../core/models/post';
 import { User } from '../../core/models/user';
 import { PostService } from '../../core/services/post.service'
 import { AuthService } from '../../core/services/auth.service';
+import { DataService } from '../../core/services/data.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
@@ -20,8 +21,10 @@ export class WorkComponent implements OnInit {
   posts: Post[]=[];
   user: User;
   newData: Post;
+  public isShowPRN: boolean ;
 
-  constructor(private postService: PostService, public auth: AuthService, public dialog: MatDialog) { }
+  constructor(private postService: PostService, public auth: AuthService, 
+    private dataService: DataService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.postService.getPosts().subscribe(
@@ -33,10 +36,11 @@ export class WorkComponent implements OnInit {
           } 
         })
       }
-    )
+    );
     this.auth.user$.subscribe(
       res => {this.user= res}
-    )
+    );
+    this.dataService.isShowPRNButton.subscribe( res => {this.isShowPRN = res;} )
   }
 
   onDelete(docId: string) {
@@ -50,6 +54,11 @@ export class WorkComponent implements OnInit {
       user: this.user.uid
     }
     this.postService.createPost(p);
+  }
+
+  print() {
+    this.dataService.changeStatePrnButton(false);
+    window.print();
   }
 
   openDialog(item: Post): void {
