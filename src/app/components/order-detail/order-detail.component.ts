@@ -320,7 +320,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
 
   applyFilter(filterValue: string) {
     //this.orderId.pipe(map(m => console.log(m)))
-    this.filteredMenulist = this.menulist.filter(v => v.name.toLowerCase().startsWith(filterValue.trim().toLowerCase()));
+    this.filteredMenulist = this.menulist.filter(v => v.name.toLowerCase().includes(filterValue.trim().toLowerCase()));
   }
 
   openDialog(item: menuItem): void {
