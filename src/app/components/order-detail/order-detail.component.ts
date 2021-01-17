@@ -99,13 +99,13 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
       this.firestore.collection('orders').doc(this.orderId).update({
         //id: this.orderId,
         OrderDate: this.orderDate, 
-        TableNo: this.tableNo,
+        tableNo: this.tableNo,
         sumOrder: this.orderSum,
         discountOrder: this.orderDiscount,
         sumDiscount: this.orderDiscountSum,
         sumService: this.orderSumService,
         sumToPay: this.orderSumToPay,
-        orderGuests: this.orderGuests,
+        guests: this.orderGuests,
         printTime: this.printTime,
         place: this.place,
         printed: this.printed,
@@ -125,7 +125,10 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
         }
       )
       this.orderSum = ssum;
-      this.orderDiscountSum = Math.round(this.orderSum * (this.orderDiscount /100.0));
+      // если указан процент скдки на счет - вычиляем сумму скидки
+      if (this.orderDiscount) {
+        this.orderDiscountSum = Math.round(this.orderSum * (this.orderDiscount /100.0));
+      }
       this.orderSumToPay = (this.orderSum - this.orderDiscountSum + this.orderSumService) * 1;
   }
 
@@ -163,7 +166,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
         orderCheck: this.orderCheck
       },
     };
-    this.router.navigate(['/print-form'], navigationExtras);
+    this.router.navigate(['work/print-form'], navigationExtras);
     //this.router.navigateByUrl('/print-form', navigationExtras);
   }
 
@@ -242,7 +245,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
             this.orderIsDone = this.currentOrder.isDone
             this.orderSum = this.currentOrder.sumOrder
             this.orderDiscount = this.currentOrder.discountOrder
-            this.orderDiscountSum = this.currentOrder.sumOrder
+            this.orderDiscountSum = this.currentOrder.sumDiscount
             this.orderSumService = this.currentOrder.sumService
             this.orderSumToPay = this.currentOrder.sumToPay
             this.orderGuests = this.currentOrder.guests
@@ -251,6 +254,9 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
             this.printed = this.currentOrder.printed
             this.waiter = this.currentOrder.waiter
             this.orderCheck = this.currentOrder.check
+            //--- tfor mat-slide-toggle 
+            this.done = this.currentOrder.isDone;
+            this.doneInfo = this.done ? 'Закрыт': 'Открыт';
           }
         )
       }

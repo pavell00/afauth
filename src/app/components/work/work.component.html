@@ -16,7 +16,7 @@
     <i class="material-icons">add</i>
 </button> -->
 <!-- {{ user | json}} -->
-<div *ngIf="auth.user$ | async">
+<div *ngIf="auth.user$ | async" style="display: flex; justify-content: space-evenly;">
     <button mat-mini-fab color="primary" [routerLink]="['orders-list']">
       <i class="material-icons">list</i>
     </button>

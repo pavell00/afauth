@@ -46,7 +46,7 @@ export class OrderCreateComponent implements OnInit {
       //add new document
         let res = this.firestore.collection('orders').add({
         OrderDate: this.orderDate, 
-        TableNo: this.orderNo,
+        tableNo: this.orderNo,
         sumOrder: this.orderSum,
         discountOrder: this.orderDiscount,
         sumService: this.orderSumService,

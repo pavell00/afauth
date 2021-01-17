@@ -72,7 +72,7 @@ export class MenuItemCreateComponent implements OnInit {
 
     //this.resetForm(form);
     this.dataService.openSnackBar('Сохранение меню...', 'завершено!');
-    this.router.navigateByUrl('menu-list');
+    this.router.navigateByUrl('work/menu-list');
   }
 
 }

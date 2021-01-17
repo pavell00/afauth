@@ -33,7 +33,7 @@ export class MenuListComponent implements OnInit {
 
   createMenuItem() {
     //menuItem-create
-    this.router.navigateByUrl('menuItem-create');
+    this.router.navigateByUrl('work/menuItem-create');
   }
 
   editMenuItem(item: menuItem) {
@@ -46,7 +46,7 @@ export class MenuListComponent implements OnInit {
         'menuDisc': item.discount
       }
     };
-    this.router.navigate(['/menuItem-create'], navigationExtras);
+    this.router.navigate(['work/menuItem-create'], navigationExtras);
   }
 
   onDelete(id: string) {
