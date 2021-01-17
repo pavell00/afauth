@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../core/services/data.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Order } from '../../core/models/order';
+import { User } from '../../core/models/user';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
     selector: 'order-create',
@@ -10,10 +12,12 @@ import { Order } from '../../core/models/order';
 })
 export class OrderCreateComponent implements OnInit {
     newOrder: Order;
+    user: User;
     orderDate: string = new Date().toLocaleString('ru');
     orderNo: string = '1';
     orderSum: number = 0;
     orderDiscount: number = 0;
+    sumDiscount: number = 0;
     orderIsDone: boolean = false;
     orderGuests: number = 1;
     orderPrintTime: string = new Date().toLocaleString('ru').replace(',', '');
@@ -23,10 +27,13 @@ export class OrderCreateComponent implements OnInit {
     waiter: string = 'Кукайло Татьяна';
     printed: string= 'Кукайло Татьяна';
 
-    constructor(private dataService: DataService,
+    constructor(private dataService: DataService, private auth: AuthService,
     private firestore: AngularFirestore) { }
 
     ngOnInit(): void {
+      this.auth.user$.subscribe(
+        res => {this.user= res}
+      );
       let d = new Date();
       let day = d.getDate();
       /*let dd: string = (d.getDay() + 1).toString();
@@ -49,6 +56,7 @@ export class OrderCreateComponent implements OnInit {
         tableNo: this.orderNo,
         sumOrder: this.orderSum,
         discountOrder: this.orderDiscount,
+        sumDiscount: this.sumDiscount,
         sumService: this.orderSumService,
         isDone: false,
         guests: this.orderGuests,
@@ -57,7 +65,8 @@ export class OrderCreateComponent implements OnInit {
         place: this.place,
         printed: this.printed,
         waiter: this.waiter,
-        sumToPay: this.orderSum + this.orderSumService
+        sumToPay: this.orderSum + this.orderSumService,
+        user: this.user.uid
       }).then(
         (w) => {
           //this.orderId = w.id;

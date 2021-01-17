@@ -9,8 +9,10 @@ import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Order } from '../../core/models/order';
+import { User } from '../../core/models/user';
 import { menuItem } from '../../core/models/menuItem';
 import { DataService } from '../../core/services/data.service';
+import { AuthService } from '../../core/services/auth.service';
 
 export interface DialogData {
   id: string;
@@ -35,6 +37,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   subscription: Subscription;
 
   currentOrder: Order;
+  user: User;
   orderDate: string = new Date().toLocaleString();
   tableNo: string = '1';
   orderId: string;
@@ -57,7 +60,8 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   orderCheck: number;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router,
-    private firestore: AngularFirestore, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+    private firestore: AngularFirestore, public dialog: MatDialog, private _snackBar: MatSnackBar,
+    private auth: AuthService) {
   }
   
   ngOnInit() {
@@ -73,6 +77,9 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
     this.route.queryParams.subscribe(params => {
       this.orderId = params["orderid"];
     });
+    this.auth.user$.subscribe(
+      res => {this.user= res}
+    );
   }
 
   print(): void {
@@ -111,7 +118,8 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
         printTime: this.printTime,
         place: this.place,
         printed: this.printed,
-        waiter: this.waiter
+        waiter: this.waiter,
+        user: this.user.uid
         //isDone: true, this.orderSumToPay = this.orderSumService;
       });
       this.dataService.openSnackBar('Сохранение зказа...', 'завершено!');

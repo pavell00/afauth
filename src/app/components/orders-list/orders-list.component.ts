@@ -22,7 +22,7 @@ export class OrderListComponent implements OnInit {
   maxLength: number;
   maxLengthFoodName: number;
 
-  constructor(private dataService: DataService, private router : Router,private firestore: AngularFirestore) { }
+  constructor(private dataService: DataService, private router : Router) { }
 
   ngOnInit(): void {
     this.displayedColumns = ['tableNo','OrderDate','sumOrder','discountOrder','Actions'];
@@ -87,11 +87,4 @@ export class OrderListComponent implements OnInit {
     this.dataService.deleteOrder(id)
   }
 
-  getDocName(id: string) {
-    console.log(this.firestore.collection('orders').doc(id).ref.id )
-  }
-
-  isInt(n: number) {
-    return n % 1 === 0;
-  }
 }

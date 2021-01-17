@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Post } from '../../core/models/post';
 import { User } from '../../core/models/user';
 import { PostService } from '../../core/services/post.service'
@@ -26,7 +26,7 @@ export class WorkComponent implements OnInit {
     private dataService: DataService) { }
 
   ngOnInit() {
-    this.postService.getPosts().subscribe(
+/*     this.postService.getPosts().subscribe(
       actionArray => {
         this.posts = actionArray.map(item => {
           return {
@@ -35,14 +35,14 @@ export class WorkComponent implements OnInit {
           } 
         })
       }
-    );
+    ); */
     this.auth.user$.subscribe(
       res => {this.user= res}
     );
     this.dataService.isShowPRNButton.subscribe( res => {this.isShowPRN = res;} )
   }
 
-  onDelete(docId: string) {
+/*   onDelete(docId: string) {
     this.postService.deletePost(docId);
   }
 
@@ -53,7 +53,7 @@ export class WorkComponent implements OnInit {
       user: this.user.uid
     }
     this.postService.createPost(p);
-  }
+  } */
 
   print() {
     this.dataService.changeStatePrnButton(false);

@@ -1,3 +1,8 @@
 table {
     width: -webkit-fill-available;
 }
+
+.mat-row:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
