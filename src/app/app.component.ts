@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './core/services/auth.service';
+import { DataService } from './core/services/data.service';
 import { version } from '../../package.json';
 
 @Component({
@@ -14,13 +15,14 @@ export class AppComponent implements OnDestroy, OnInit {
   mobileQuery: MediaQueryList;
   img: string = '213116.jpg';
   public version: string = version;
+  opened: boolean;
 
   fillerNav = Array.from({length: 12}, (_, i) => `Nav Item ${i + 1}`);
 
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
-    public auth: AuthService) {
+    public auth: AuthService, private dataService: DataService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     //this.mobileQuery.addListener(this._mobileQueryListener);
@@ -43,6 +45,11 @@ export class AppComponent implements OnDestroy, OnInit {
   }
   printError(event) {
       console.error(event);
+  }
+
+  setStateToggle(e: boolean) {
+    console.log(e)
+    this.dataService.snavState = e;
   }
   
 }

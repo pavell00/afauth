@@ -1,69 +1,9 @@
-<ng-container *ngIf="restaurant==='almondo';  then almondo; else queen">
-</ng-container>
+<button mat-mini-fab color="accent" (click)="print()">
+  <i class="material-icons">print</i>
+</button>
 
-<div class="print">
-  <ng-template #almondo>
-    <hr width="100%" style="border-bottom: 2px dashed #C0C0C0" color="#FFFFFF" size="6">
-    <div class="almondo" style="text-align: center;">
-        <pre>Almondo</pre>
-        <pre>Restaurant&Club</pre>
-    </div>
-    
-    <div class="almondo">
-      <p>Зал: {{ place }}</p> 
-      <p><b>Стол: {{ orderNo }}</b></p>
-      <div class="almondo" style="display: flex; justify-content: space-between;">
-        <div class="almondo">Открыт: {{ orderDate }}</div> <div class="almondo">Гостей: {{ orderGuests }}</div>
-      </div>
-      
-      <p>Офиц: {{ waiter }}</p>
-      <p>Напечатал: {{ printed }}</p>
-      <p>Печать: {{ printTime }}</p>
-    </div>
+<div id="section-to-print">
 
-    <table style="line-height: 1.1; border-collapse: collapse; width: 100%;">
-      <thead style="text-align: left;">
-        <!--<tr>
-          <th>Перечень заказа</th>
-        </tr>-->
-        <th style="border-bottom: 1px solid black;">Наименование</th>
-        <th style="text-align: center; border-bottom: 1px solid black;">К-во</th>
-        <th style="text-align: right; border-bottom: 1px solid black;">Сумма</th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let emp of selectedMenu">
-          <td >{{emp.name}}</td>
-          <td style="text-align: center">{{emp.qty}}</td>
-          <td style="text-align: right;">{{(emp.price * emp.qty).toFixed(2)}}</td>
-        </tr>
-        <tr>
-          <td style="line-height: 0.2; text-align: right; border-top: 1px solid black;"></td>
-          <td style="line-height: 0.2; text-align: right; border-top: 1px solid black;"></td>
-          <td style="line-height: 0.2; text-align: right; border-top: 1px solid black;"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!--<table style="line-height: 1.1; border-collapse: collapse;">
-      <thead style="text-align: left; font-size: 18px;">
-        <th style="border-top: 1px solid black; text-align: center;"><b>К оплате:</b></th>
-        <th style="border-top: 1px solid black; text-align: right;"><b>{{ orderSum }}</b></th>
-      </thead>
-    </table>-->
-    <div class="almondo" style="border-top: 1px solid black; padding-left: 100px; font-size: 19px; margin-top: 1px;">
-      <b style="line-height:20px">К оплате:</b>
-      <b style="line-height:20px; float: right;">{{ orderSumToPay }}</b>
-    </div>
-
-    <div class="almondo" style="margin-top: 20px; text-align: center;">
-      <p><b>{{footerStr}}</b></p>
-      <p><b>{{footerStr1}}</b></p>
-      <p><b>{{footerStr2}}</b></p>
-    </div>
-    <hr width="100%" style="border-bottom: 2px dashed #C0C0C0" color="#FFFFFF" size="6">
-  </ng-template>
-
-  <ng-template #queen>
     <div style="display: flex; justify-content: center">
       <img class="imagequeen" src="assets/queen.jpg">
     </div>
@@ -152,5 +92,4 @@
       <p>но всегда остается на ваше усмотрение.</p>
     </div>
     <!--<hr width="100%" style="border-bottom: 2px dashed #C0C0C0" color="#FFFFFF" size="6">-->
-  </ng-template>
 </div>

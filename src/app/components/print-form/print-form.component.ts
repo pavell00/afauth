@@ -59,7 +59,19 @@ export class PrintFormComponent implements OnInit {
   }
 
   print() {
+    if (this.dataService.snavState) {
+      
+    }
     window.print();
+    //console.log(document.getElementById("printable").innerHTML)
+/*     var newWindow = window.open();
+    newWindow.document.write(document.getElementById("printable").innerHTML);
+    newWindow.print();  */
+/*     var restorepage = document.body.innerHTML;
+    var printcontent = document.getElementById("printable").innerHTML;
+    document.body.innerHTML = printcontent;
+    window.print();
+    document.body.innerHTML = restorepage; */
   }
 
 }

@@ -28,7 +28,9 @@
   <mat-sidenav-container class="example-sidenav-container" [hidden]="auth.user$ | async"
       [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-        [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+        [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
+        (opened)="setStateToggle(true)"
+        (closed)="setStateToggle(false)">
       <!-- <mat-nav-list *ngIf="auth.user$ | async">
         <a mat-list-item routerLink="/work" *ngFor="let nav of fillerNav">{{nav}}</a>
       </mat-nav-list> -->

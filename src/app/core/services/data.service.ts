@@ -12,6 +12,7 @@ import { Order } from '../models/order';
 })
 export class DataService {
 
+  public snavState: boolean = false;
   private statePrintButton = new BehaviorSubject<boolean>(false);
   isShowPRNButton = this.statePrintButton.asObservable();
   //public formData: menuItem;
