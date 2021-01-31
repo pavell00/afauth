@@ -28,7 +28,7 @@
   <!--<mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" old style of navbar behavior-->
   <mat-sidenav-container class="example-sidenav-container" [hidden]="auth.user$ | async"
       [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav [mode]="over"
+    <mat-sidenav #snav [mode]="'over'"
         [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
         (opened)="setStateToggle(true)"
         (closed)="setStateToggle(false)">

@@ -48,7 +48,7 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   setStateToggle(e: boolean) {
-    console.log(e)
+    //console.log(e)
     this.dataService.snavState = e;
   }
   
