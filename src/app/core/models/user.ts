@@ -4,7 +4,7 @@ export interface Roles {
     admin?: boolean;
  }
   
-export interface User {
+export class User {
     uid: string;
     email: string;
     roles: Roles;

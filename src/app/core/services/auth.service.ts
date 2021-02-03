@@ -6,6 +6,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { User } from '../models/user';
+import { $ } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +68,8 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       roles: {
-        subscriber: true
+        subscriber: true,
+        editor: true
       }
     }
     localStorage.setItem('user', JSON.stringify(user));
@@ -97,6 +99,26 @@ export class AuthService {
       }
     }
     return false
+  }
+
+  public getUsers(){
+    return this.afs.collection('users').snapshotChanges();
+  }
+
+  changeUserRights(rightName: string, uid: string, flag: boolean) {
+    //console.log(rightName, uid, flag)
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
+    switch (rightName) {
+      case 'admin':
+        return userRef.update({'roles.admin' : !flag})
+        break;
+      case 'editor':
+        return userRef.update({'roles.editor' : !flag})
+        break;
+      case 'subscriber':
+        return userRef.update({'roles.subscriber' : !flag})
+        break; 
+    }
   }
 
 }
