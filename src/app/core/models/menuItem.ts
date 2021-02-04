@@ -4,4 +4,6 @@ export class menuItem {
     price?: number;
     qty?: number;
     discount?: number;
+    description?: string;
+    inKitchen?:boolean;
   }

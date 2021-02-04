@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
 
   @NgModule({
     imports: [
@@ -23,7 +24,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
       MatFormFieldModule, MatTableModule, MatDialogModule,
       MatInputModule, MatSidenavModule, MatToolbarModule,
       MatSelectModule, MatCheckboxModule,
-      MatExpansionModule
+      MatExpansionModule, MatMenuModule
     ],
     exports: [
       MatSidenavModule,
@@ -39,7 +40,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
       MatSelectModule,
       MatSnackBarModule,
       MatSlideToggleModule,
-      MatExpansionModule
+      MatExpansionModule,
+      MatMenuModule
     ],
     providers: [ 
       { provide: MatDialogRef, useValue: {close: (dialogResult: any) => { }}},

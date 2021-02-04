@@ -21,7 +21,7 @@ import { AdminPageComponent } from './components/admin-page/admin-page.component
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { MenuItemCreateComponent } from './components/menuItem-create/menuItem-create.component';
 import { OrderCreateComponent } from './components/order-create/order-create.components';
-import { OrderDetailComponent, DialogEditOrderItem } from './components/order-detail/order-detail.component';
+import { OrderDetailComponent, DialogEditOrderItem, DialogEditNote } from './components/order-detail/order-detail.component';
 import { OrderListComponent } from './components/orders-list/orders-list.component';
 import { PrintFormComponent } from './components/print-form/print-form.component';
 
@@ -31,7 +31,7 @@ import { PrintFormComponent } from './components/print-form/print-form.component
     UserProfileComponent,
     WorkComponent,
     WelcomeComponent,
-    DialogEditOrderItem,
+    DialogEditOrderItem, DialogEditNote,
     AdminPageComponent, MenuListComponent, MenuItemCreateComponent,
     OrderCreateComponent, OrderDetailComponent, OrderListComponent,
     PrintFormComponent
@@ -66,7 +66,7 @@ import { PrintFormComponent } from './components/print-form/print-form.component
     FormsModule
   ],
   providers: [],
-  entryComponents: [DialogEditOrderItem],
+  entryComponents: [DialogEditOrderItem, DialogEditNote],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

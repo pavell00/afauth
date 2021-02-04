@@ -50,15 +50,17 @@
     <table mat-table [dataSource]="selectedMenu" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Название </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} 
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.inKitchen">kitchen</mat-icon>
+          {{element.name}} 
 <!--           <button mat-mini-fab color="accent" (click)="openDialog(element)">
             <i class="material-icons">edit</i>
           </button> -->
-          <button mat-mini-fab color="accent" (click)="changeQty(element, -1)">
-            <i class="material-icons">exposure_neg_1</i>
-          </button>
           <button mat-mini-fab color="accent" (click)="changeQty(element, 1)">
             <i class="material-icons">exposure_plus_1</i>
+          </button>
+          <button mat-mini-fab color="accent" *ngIf="(element.qty>1)" (click)="changeQty(element, -1)">
+            <i class="material-icons">exposure_neg_1</i>
           </button>
         </td>
       </ng-container>
@@ -77,9 +79,20 @@
       <ng-container matColumnDef="Actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-mini-fab color="warn" (click)="onDelete(element.id)">
-            <i class="material-icons">delete</i>
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
           </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openDialogNote(element)">
+              <mat-icon>note_add</mat-icon>
+              <span>Примечание</span>
+            </button>
+            <button mat-menu-item (click)="onDelete(element.id)" disabled> 
+              <mat-icon>delete_outline</mat-icon>
+              <span>Удалить</span>
+            </button>
+
+          </mat-menu>
         </td>
       </ng-container>
 

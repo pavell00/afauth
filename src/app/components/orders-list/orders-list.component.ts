@@ -5,7 +5,8 @@ import { Router, NavigationExtras } from '@angular/router';
 import { Order } from '../../core/models/order';
 import { menuItem } from '../../core/models/menuItem';
 import { DataService } from '../../core/services/data.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AuthService } from '../../core/services/auth.service';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'orders-list',
@@ -14,6 +15,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class OrderListComponent implements OnInit {
   orders: Order[] = [];
+  user: User;
   displayedColumns: string[] = [];
   columnsToDisplay: string[] = [];
   header: string;
@@ -22,20 +24,39 @@ export class OrderListComponent implements OnInit {
   maxLength: number;
   maxLengthFoodName: number;
 
-  constructor(private dataService: DataService, private router : Router) { }
+  constructor(private dataService: DataService, private router : Router,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.displayedColumns = ['tableNo','OrderDate','sumOrder','discountOrder','Actions'];
     this.columnsToDisplay = this.displayedColumns.slice();
-    this.dataService.getOrders().subscribe(actionArray => {
+    this.authService.user$.subscribe(
+      res => {
+        this.user = res;
+        this.dataService.getOrders(this.user).subscribe(actionArray => {
+          this.orders = actionArray.map(item => {
+            return {
+              id: item.payload.doc.id,
+              ...item.payload.doc.data() as Order
+            }
+          })
+        });
+      }
+    )   
+
+/*     this.dataService.getOrders().subscribe(actionArray => {
       this.orders = actionArray.map(item => {
         return {
           id: item.payload.doc.id,
           ...item.payload.doc.data() as Order
-        } //as Order;
-      })
-    });
-    //console.log(this.orders);
+        }
+    }); */
+
+/*     this.dataService.getOrders().subscribe(actionArray => {
+      console.log(actionArray)
+      this.orders = actionArray
+      console.log(this.orders)
+    }); */
   }
 
   onCreateOrder() {
@@ -74,13 +95,6 @@ export class OrderListComponent implements OnInit {
       
     }
     return txt;
-  }
-
-  deleteOrder_old(id: string) {
-    this.dataService.deleteOrder_cfn(id).subscribe(
-      res => this.dataService.openSnackBar('Удаление заказа...', 'завершено!'), //console.log(res),
-      error =>  console.log(error)
-    )
   }
 
   deleteOrder(id: string) {

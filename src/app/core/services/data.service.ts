@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireFunctions } from '@angular/fire/functions';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { map } from 'rxjs/operators'
+import { filter, map } from 'rxjs/operators'
 import { menuItem } from '../models/menuItem';
 import { Order } from '../models/order';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +17,7 @@ export class DataService {
   private statePrintButton = new BehaviorSubject<boolean>(false);
   isShowPRNButton = this.statePrintButton.asObservable();
   //public formData: menuItem;
-  constructor(private firestore: AngularFirestore, private _snackBar: MatSnackBar,
-    private fns: AngularFireFunctions) { }
-
-  deleteOrder_cfn(id: string): Observable<string> {
-    const docid = { docid: id };
-    return this.fns.httpsCallable('del_order')(docid)
-  }
+  constructor(private firestore: AngularFirestore, private _snackBar: MatSnackBar) { }
 
   changeStatePrnButton(res: boolean) {
     this.statePrintButton.next(res);
@@ -32,8 +27,25 @@ export class DataService {
     return this.firestore.collection('menulist').snapshotChanges();
   }
 
-  getOrders() {
-    return this.firestore.collection('orders').snapshotChanges();
+  getOrders(user: User) {
+    //return this.firestore.collection('orders').snapshotChanges();
+    if (user.roles['admin']) {
+      return this.firestore.collection('orders').snapshotChanges();
+    } else {
+      return this.firestore.collection('orders', ref => ref.where('user', '==', user.uid))
+      .snapshotChanges()
+    }
+/*    return this.firestore.collection('orders', ref => ref.where('user', '==', user.uid))
+    .snapshotChanges()
+       .get()
+      .pipe(
+        filter(ref => !ref.empty)
+        //,map(ref => ref.docs[1].data() as Order)
+        ,map(ref => {
+          const orders: Order[] = [];
+          return ref.docs[0].data()
+        })
+      ) */
   }
 
   getParams() {
@@ -103,6 +115,18 @@ export class DataService {
       this.openSnackBar('Обновление элемента', 'завершено...');
     } catch (error) {
       console.error("Error updating row in <line> collection: ", error);
+    }
+  }
+
+  async addDescriptionInOrderDatail (item: menuItem, orderId: string) {
+    var lineRef = this.firestore.collection('orders').doc(orderId).collection('lines').doc(item.id)
+    try {
+      await lineRef.set({
+        description: item.description,
+      }, {merge: true})
+      this.openSnackBar('Обновление элемента', 'завершено...');
+    } catch (error) {
+      console.error("Error adding description in <line> collection: ", error);
     }
   }
 

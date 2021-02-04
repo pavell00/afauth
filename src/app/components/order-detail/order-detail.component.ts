@@ -349,6 +349,29 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
     });
   }
 
+  openDialogNote(item: menuItem): void {
+    const dialogRef = this.dialog.open(DialogEditNote, {
+      width: '250px',
+      data: {id: item.id, name: item.name, description: item.description}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+       if (result) {
+        this.newData = result;
+        //console.log(this.newData);
+        //refresh data in array
+        for(let i = 0; i < this.selectedMenu.length; i++) {
+          if(this.selectedMenu[i].id == this.newData.id) {
+            this.selectedMenu[i].description = this.newData.description;
+          }
+        }
+        //update data in DB subCollection
+        //console.log(this.orderId)
+        this.dataService.addDescriptionInOrderDatail(this.newData, this.orderId)
+      }
+    });
+  }
+
   public toggle(event: MatSlideToggleChange) {
     //console.log('toggle', event.checked);
     this.dataService.changeDoneStatus(this.orderId, event.checked);
@@ -384,6 +407,24 @@ export class DialogEditOrderItem {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+}
+
+@Component({
+  selector: 'dialog-note',
+  templateUrl: './edit-dialogNote.html',
+  styleUrls: ['./edit-dialogNote.css']
+})
+export class DialogEditNote{
+  description: string;
+
+  constructor(
+    public dialogRefNote: MatDialogRef<DialogEditNote>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    this.dialogRefNote.close();
   }
 
 }
