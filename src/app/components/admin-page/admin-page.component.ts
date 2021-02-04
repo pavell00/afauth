@@ -18,7 +18,7 @@ import { User } from '../../core/models/user';
 export class AdminPageComponent implements OnInit {
   users: User[]=[];
   displayedColumns = ['displayName', 'email'];
-  currentUserId: string;
+  expandedElement: any;
 
   constructor(private authService: AuthService) { }
 

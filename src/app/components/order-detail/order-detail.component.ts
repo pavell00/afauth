@@ -20,6 +20,7 @@ export interface DialogData {
   price: number;
   qty: number;
   discount: number;
+  description: string;
 }
 
 @Component({
