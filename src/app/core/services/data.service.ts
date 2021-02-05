@@ -57,8 +57,8 @@ export class DataService {
   }
   
   getOrder(id: string) {
-    //return this.firestore.collection('orders').doc(id).snapshotChanges();
-    return this.firestore.collection('orders').doc(id);
+    return this.firestore.collection('orders').doc(id).snapshotChanges();
+    //return this.firestore.collection('orders').doc(id);
   }
 
   deleteOrder(id: string) {

@@ -4,7 +4,7 @@
       <mat-panel-title>Детали заказа</mat-panel-title>
     </mat-expansion-panel-header>
     <mat-form-field style="text-align: center; width: 40px;">
-      <input matInput [(ngModel)]="tableNo" placeholder="Номер стола">
+      <input matInput [(ngModel)]="tableNo"placeholder="Номер стола">
     </mat-form-field>
     <mat-form-field style="text-align: center; width: 80px;">
       <input matInput [(ngModel)]="orderDate" placeholder="Открыт стол">
@@ -48,10 +48,11 @@
 <div id="print-section">
   <div *ngIf="orderId || selectedMenu?.length">
     <table mat-table [dataSource]="selectedMenu" class="mat-elevation-z8">
+
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Название </th>
         <td mat-cell *matCellDef="let element">
-          <mat-icon *ngIf="element.inKitchen">kitchen</mat-icon>
+          <mat-icon *ngIf="element.status">kitchen</mat-icon>
           {{element.name}} 
 <!--           <button mat-mini-fab color="accent" (click)="openDialog(element)">
             <i class="material-icons">edit</i>
@@ -64,10 +65,12 @@
           </button>
         </td>
       </ng-container>
+
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef> Цена </th>
         <td mat-cell *matCellDef="let element"> {{element.price}} </td>
       </ng-container>
+
       <ng-container matColumnDef="qty">
         <th mat-header-cell *matHeaderCellDef> К-во </th>
         <td mat-cell *matCellDef="let element"> {{element.qty}} </td>
@@ -76,6 +79,7 @@
         <th mat-header-cell *matHeaderCellDef> Сумма </th>
         <td mat-cell *matCellDef="let element"> {{element.qty * element.price}} </td>
       </ng-container>
+
       <ng-container matColumnDef="Actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
@@ -91,7 +95,6 @@
               <mat-icon>delete_outline</mat-icon>
               <span>Удалить</span>
             </button>
-
           </mat-menu>
         </td>
       </ng-container>

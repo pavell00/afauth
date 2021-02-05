@@ -81,6 +81,40 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
     this.auth.user$.subscribe(
       res => {this.user= res}
     );
+    //get list items of order
+    if (this.orderId) {
+      this.dataService.getSubCollection(this.orderId).subscribe(actionArray => {
+        this.selectedMenu = actionArray.map(item => {
+          return {
+            id: item.payload.doc.id,
+            ...item.payload.doc.data()
+          } as menuItem;
+        });
+      });
+    }
+    // get order params
+    if (this.orderId) {
+      this.dataService.getOrder(this.orderId).subscribe(actionArray => {
+        this.currentOrder = actionArray.payload.data() as Order;
+        this.tableNo = this.currentOrder.tableNo
+        this.orderDate = this.currentOrder.OrderDate.toString()
+        this.orderIsDone = this.currentOrder.isDone
+        this.orderSum = this.currentOrder.sumOrder
+        this.orderDiscount = this.currentOrder.discountOrder
+        this.orderDiscountSum = this.currentOrder.sumDiscount
+        this.orderSumService = this.currentOrder.sumService
+        this.orderSumToPay = this.currentOrder.sumToPay
+        this.orderGuests = this.currentOrder.guests
+        this.printTime = this.currentOrder.printTime
+        this.place = this.currentOrder.place
+        this.printed = this.currentOrder.printed
+        this.waiter = this.currentOrder.waiter
+        this.orderCheck = this.currentOrder.check
+        //--- for mat-slide-toggle 
+        this.done = this.currentOrder.isDone;
+        this.doneInfo = this.done ? 'Закрыт': 'Открыт';
+      });
+    }
   }
 
   print(): void {
@@ -145,40 +179,9 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     if (this.orderId) {
-      this.getOrderItems2();
-      this.fillOrderData();
+      //this.getOrderItems2();
+      //this.fillOrderData();
     } 
-  }
-
-  printForm(restaurant : string) {
-    let dateArr = this.orderDate.split(' ');
-    let firstPart = dateArr[0] + '.' + new Date().getFullYear().toString();
-    let finalyValue = firstPart.replace('/','.');
-    let secontValue = dateArr[1]
-    let timeArr = this.printTime.split(' ');
-    let strTime = timeArr[1];
-    let shortTime = strTime.slice(0, -3)
-    
-    this.dataService.changeStatePrnButton(true);
-    let navigationExtras: NavigationExtras = { queryParams: 
-      { selectedMenu: JSON.stringify(this.selectedMenu), 
-        orderSumToPay: this.orderSumToPay.toFixed(2),
-        orderDate: this.orderDate,
-        tableNo: this.tableNo,
-        orderGuests: this.orderGuests,
-        printTime: this.printTime,
-        place: this.place,
-        printed: this.printed,
-        waiter: this.waiter,
-        restaurant: restaurant,
-        shortOrderDate: finalyValue,
-        timeOpenTable: secontValue,
-        shortPrintTime: shortTime,
-        orderCheck: this.orderCheck
-      },
-    };
-    this.router.navigate(['work/print-form'], navigationExtras);
-    //this.router.navigateByUrl('/print-form', navigationExtras);
   }
 
   storeOrderItems(id: string) {
@@ -229,9 +232,10 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   }
 
   fillOrderData() {
+    console.log(this.orderId)
     if (this.orderId) {
         //let docRef = this.firestore.collection('orders').doc(this.orderId);
-        this.dataService.getOrder(this.orderId).get().toPromise().then(
+        this.dataService.getOrder(this.orderId).toPromise().then(
           doc => {
             //console.log("Document data:", doc.data())
 /*          this.tableNo = doc.data().tableNo;
@@ -250,9 +254,10 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
             this.done = doc.data().isDone;
             this.doneInfo = this.done ? 'Закрыт': 'Открыт';
             this.orderCheck = doc.data().check; */
-            this.currentOrder = doc.data() as Order
-            this.tableNo = this.currentOrder.tableNo
-            this.orderDate = this.currentOrder.OrderDate.toString()
+             this.currentOrder = doc as Order
+             console.log(this.currentOrder)
+/*            this.tableNo = this.currentOrder.tableNo
+            this.orderDate = this.currentOrder.toString()
             this.orderIsDone = this.currentOrder.isDone
             this.orderSum = this.currentOrder.sumOrder
             this.orderDiscount = this.currentOrder.discountOrder
@@ -264,8 +269,8 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
             this.place = this.currentOrder.place
             this.printed = this.currentOrder.printed
             this.waiter = this.currentOrder.waiter
-            this.orderCheck = this.currentOrder.check
-            //--- tfor mat-slide-toggle 
+            this.orderCheck = this.currentOrder.check */
+            //--- for mat-slide-toggle 
             this.done = this.currentOrder.isDone;
             this.doneInfo = this.done ? 'Закрыт': 'Открыт';
           }

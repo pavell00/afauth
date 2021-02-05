@@ -5,5 +5,5 @@ export class menuItem {
     qty?: number;
     discount?: number;
     description?: string;
-    inKitchen?:boolean;
+    status?: string;
   }

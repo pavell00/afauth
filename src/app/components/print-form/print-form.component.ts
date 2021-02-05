@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute }     from '@angular/router';
+import { Order } from 'src/app/core/models/order';
 //import { timeStamp } from 'console';
 import { menuItem } from '../../core/models/menuItem';
 import { Params } from '../../core/models/params2';
@@ -12,6 +13,8 @@ import { DataService } from '../../core/services/data.service';
 })
 export class PrintFormComponent implements OnInit {
   selectedMenu: menuItem[] = [];
+  currentOrder: Order;
+  orderId: string;
   orderSumToPay: number;
   orderDate: string;
   orderNo: string;
@@ -34,28 +37,52 @@ export class PrintFormComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      this.selectedMenu = JSON.parse(params['selectedMenu']);
-      this.orderSumToPay = params['orderSumToPay'];
-      this.orderDate = params['orderDate'];
-      this.orderNo = params['orderNo'];
-      this.orderGuests = params['orderGuests'];
-      this.place = params['place'];
-      this.printed = params['printed'];
-      this.waiter = params['waiter'];
-      this.printTime = new Date().toLocaleString('ru').replace(',', '');//params['printTime'];
-      this.restaurant = params['restaurant']
-      this.shortOrderDate = params['shortOrderDate']
-      this.timeOpenTable = params['timeOpenTable']
-      this.shortPrintTime = params['shortPrintTime']
-      this.orderCheck = params['orderCheck']
+      this.orderId = params['orderId'];
+      this.dataService.getOrder(params['orderId']).subscribe(
+        actionArray => {
+          this.currentOrder = actionArray.payload.data() as Order;
+          let dateArr = this.currentOrder.OrderDate.split(' ');
+          let firstPart = dateArr[0] + '.' + new Date().getFullYear().toString();
+          let finalyValue = firstPart.replace('/','.');
+          let secontValue = dateArr[1]
+          let timeArr = this.currentOrder.printTime.split(' ');
+          let strTime = timeArr[1];
+          let shortTime = strTime.slice(0, -3)
+          //this.selectedMenu = JSON.parse(params['selectedMenu']);
+          this.orderSumToPay = this.currentOrder.sumToPay;
+          this.orderDate = this.currentOrder.OrderDate.toString();
+          this.orderNo = this.currentOrder.check.toString();
+          this.orderGuests = this.currentOrder.guests;
+          this.place = this.currentOrder.place;
+          this.printed = this.currentOrder.printed;
+          this.waiter = this.currentOrder.waiter;
+          this.printTime = new Date().toLocaleString('ru').replace(',', '');//params['printTime'];
+          //this.restaurant = res.restaurant;
+           this.shortOrderDate = finalyValue;
+          this.timeOpenTable = secontValue;
+          this.shortPrintTime = shortTime;
+          this.orderCheck = this.currentOrder.check.toString(); 
+        }
+      )
     });
     this.dataService.getParams().get().toPromise().then(
       param => {//console.log("params data:", doc.data())
 /*         this.footerStr = param.data().footerStr;
         this.footerStr1 = param.data().footerStr1;
         this.footerStr2 = param.data().footerStr2; */
-        this.currentParams = param.data() as Params
-      })
+      this.currentParams = param.data() as Params
+    });
+    //get list items of order
+    if (this.orderId) {
+      this.dataService.getSubCollection(this.orderId).subscribe(actionArray => {
+        this.selectedMenu = actionArray.map(item => {
+          return {
+            id: item.payload.doc.id,
+            ...item.payload.doc.data()
+          } as menuItem;
+        });
+      });
+    }
   }
 
   print() {

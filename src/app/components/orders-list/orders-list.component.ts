@@ -101,4 +101,36 @@ export class OrderListComponent implements OnInit {
     this.dataService.deleteOrder(id)
   }
 
+  printForm(order: Order) {
+    let navigationExtras: NavigationExtras = { queryParams: {orderId: order.id}}
+    /* let dateArr = order.orderDate.split(' ');
+    let firstPart = dateArr[0] + '.' + new Date().getFullYear().toString();
+    let finalyValue = firstPart.replace('/','.');
+    let secontValue = dateArr[1]
+    let timeArr = order.printTime.split(' ');
+    let strTime = timeArr[1];
+    let shortTime = strTime.slice(0, -3)
+    
+    //this.dataService.changeStatePrnButton(true);
+    let navigationExtras: NavigationExtras = { queryParams: 
+      { selectedMenu: JSON.stringify(this.selectedMenu), 
+        orderSumToPay: this.orderSumToPay.toFixed(2),
+        orderDate: this.orderDate,
+        tableNo: this.tableNo,
+        orderGuests: this.orderGuests,
+        printTime: this.printTime,
+        place: this.place,
+        printed: this.printed,
+        waiter: this.waiter,
+        restaurant: restaurant,
+        shortOrderDate: finalyValue,
+        timeOpenTable: secontValue,
+        shortPrintTime: shortTime,
+        orderCheck: this.orderCheck
+      },
+    }; */
+    this.router.navigate(['work/print-form'], navigationExtras);
+    //this.router.navigateByUrl('/print-form', navigationExtras);
+  }
+
 }
