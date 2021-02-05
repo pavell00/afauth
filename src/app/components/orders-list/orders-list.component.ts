@@ -133,4 +133,5 @@ export class OrderListComponent implements OnInit {
     //this.router.navigateByUrl('/print-form', navigationExtras);
   }
 
+  openDialogNote(e: any){}
 }

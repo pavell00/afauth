@@ -136,6 +136,8 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
     popupWin.document.close();
   }
 
+  printForm(e: any) {}
+
   onSave() {
     //update existing document
     if (this.orderId) {
