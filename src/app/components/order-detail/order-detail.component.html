@@ -45,7 +45,7 @@
   </mat-expansion-panel>
 </div>
 
-<div id="print-section">
+<div>
   <div *ngIf="orderId || selectedMenu?.length">
     <table mat-table [dataSource]="selectedMenu" class="mat-elevation-z8">
 
@@ -112,7 +112,7 @@
       <!--<button mat-mini-fab color="primary" (click)="printForm('almondo')">
           <i class="material-icons">pageview</i>
       </button>-->
-      <button mat-mini-fab color="primary" (click)="printForm('queen')">
+      <button mat-mini-fab color="primary" (click)="print()">
         <i class="material-icons">pageview</i>
       </button>
     </div>
@@ -160,3 +160,16 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;">
   </tr>
 </table>
+
+<div hidden='true' id="print-section">
+  <p>Заказ на кухню, стол № {{tableNo}}</p>
+  <p>официант {{waiter}}</p>
+  <p>время {{orderDate}}</p>
+  <ul>
+    <ng-container *ngFor="let item of selectedMenu">
+      <li *ngIf="!item.status">{{item.name}} - {{item.qty}} шт.
+        <br *ngIf="item.description">{{item.description}}
+      </li>
+    </ng-container>
+  </ul>
+</div>

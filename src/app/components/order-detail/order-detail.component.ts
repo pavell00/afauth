@@ -3,7 +3,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router, NavigationExtras }     from '@angular/router';
 import { Subscription, Observable, Subject } from 'rxjs';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -49,6 +48,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   orderSumToPay: number = 1.0;
   orderSumService: number = 1.0;
   orderGuests: number = 1;
+  description: string = '';
 
   newData: any;
   printTime: string = '';
@@ -61,8 +61,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   orderCheck: number;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router,
-    private firestore: AngularFirestore, public dialog: MatDialog, private _snackBar: MatSnackBar,
-    private auth: AuthService) {
+    private firestore: AngularFirestore, public dialog: MatDialog, private auth: AuthService) {
   }
   
   ngOnInit() {
@@ -96,20 +95,20 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
     if (this.orderId) {
       this.dataService.getOrder(this.orderId).subscribe(actionArray => {
         this.currentOrder = actionArray.payload.data() as Order;
-        this.tableNo = this.currentOrder.tableNo
-        this.orderDate = this.currentOrder.OrderDate.toString()
-        this.orderIsDone = this.currentOrder.isDone
-        this.orderSum = this.currentOrder.sumOrder
-        this.orderDiscount = this.currentOrder.discountOrder
-        this.orderDiscountSum = this.currentOrder.sumDiscount
-        this.orderSumService = this.currentOrder.sumService
-        this.orderSumToPay = this.currentOrder.sumToPay
-        this.orderGuests = this.currentOrder.guests
-        this.printTime = this.currentOrder.printTime
-        this.place = this.currentOrder.place
-        this.printed = this.currentOrder.printed
-        this.waiter = this.currentOrder.waiter
-        this.orderCheck = this.currentOrder.check
+        this.tableNo = this.currentOrder.tableNo;
+        this.orderDate = this.currentOrder.OrderDate.toString();
+        this.orderIsDone = this.currentOrder.isDone;
+        this.orderSum = this.currentOrder.sumOrder;
+        this.orderDiscount = this.currentOrder.discountOrder;
+        this.orderDiscountSum = this.currentOrder.sumDiscount;
+        this.orderSumService = this.currentOrder.sumService;
+        this.orderSumToPay = this.currentOrder.sumToPay;
+        this.orderGuests = this.currentOrder.guests;
+        this.printTime = this.currentOrder.printTime;
+        this.place = this.currentOrder.place;
+        this.printed = this.currentOrder.printed;
+        this.waiter = this.currentOrder.waiter;
+        this.orderCheck = this.currentOrder.check;
         //--- for mat-slide-toggle 
         this.done = this.currentOrder.isDone;
         this.doneInfo = this.done ? 'Закрыт': 'Открыт';
@@ -118,7 +117,19 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   }
 
   print(): void {
-    let printContents, popupWin;
+    let cntForPrint: number = 0;
+    this.selectedMenu.forEach(item => {
+      if (item.status !== 'InWork') {
+        cntForPrint++;
+      }
+    })
+    //check for non printed elemets in order (next part to print)
+    if (!cntForPrint) {
+      this.dataService.openSnackBar("Все позиции уже в работе!","Нечего печатать")
+      return
+    }
+
+    let printContents: string, popupWin: any;
     printContents = document.getElementById('print-section').innerHTML;
     popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
     popupWin.document.open();
@@ -134,6 +145,12 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
       </html>`
     );
     popupWin.document.close();
+    this.selectedMenu.forEach(item => {
+      if (item.status !== 'InWork') {
+        this.dataService.setStatusInOrderDatailToInWork(item, this.orderId)
+      }
+    });
+    
   }
 
   printForm(e: any) {}

@@ -180,4 +180,16 @@ export class DataService {
       console.error("Error updating <orders> collection: ", error);
     }
   }
+
+  async setStatusInOrderDatailToInWork (item: menuItem, orderId: string) {
+    var lineRef = this.firestore.collection('orders').doc(orderId).collection('lines').doc(item.id)
+    try {
+      await lineRef.set({
+        status: 'InWork',
+      }, {merge: true})
+      //this.openSnackBar('Обновление элемента', 'завершено...');
+    } catch (error) {
+      console.error("Error chanching status in <line> collection: ", error);
+    } 
+  }
 }
