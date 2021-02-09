@@ -1,27 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { menuItem } from '../../core/models/menuItem';
 import { DataService } from '../../core/services/data.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscription, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'menu-list',
   templateUrl: './menu-list.component.html',
   styleUrls: ['./menu-list.component.css']
 })
-export class MenuListComponent implements OnInit {
+export class MenuListComponent implements OnInit, OnDestroy {
   menulist : menuItem[] = [];
   displayedColumns = ['name', 'price', 'qty', 'Del'];
   menuName: string;
   menuQty: number;
   menuPrice: number;
   menuDisc: number;
+  subscription: Subscription;
   
   constructor(private dataService: DataService, private router : Router,
     private firestore: AngularFirestore) { }
 
   ngOnInit() {
-    this.dataService.getMenuList().subscribe(actionArray => {
+    this.subscription = this.dataService.getMenuList().subscribe(actionArray => {
       this.menulist = actionArray.map(item => {
         return {
           id: item.payload.doc.id,
@@ -54,6 +56,10 @@ export class MenuListComponent implements OnInit {
       this.firestore.doc('menulist/' + id).delete();
       this.dataService.openSnackBar('Удаление эелемента меню...','завершено!');
     }
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
 }

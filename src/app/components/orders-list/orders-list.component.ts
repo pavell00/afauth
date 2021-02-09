@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
+import { Subscription } from 'rxjs';
 //import * as copy from 'copy-to-clipboard';
 //import copy from 'copy-to-clipboard';
 import { Order } from '../../core/models/order';
@@ -13,7 +14,7 @@ import { User } from 'src/app/core/models/user';
   templateUrl: './orders-list.component.html',
   styleUrls: ['./orders-list.component.css']
 })
-export class OrderListComponent implements OnInit {
+export class OrderListComponent implements OnInit, OnDestroy {
   orders: Order[] = [];
   user: User;
   displayedColumns: string[] = [];
@@ -23,6 +24,7 @@ export class OrderListComponent implements OnInit {
   strLine5: string;
   maxLength: number;
   maxLengthFoodName: number;
+  private subscription: Subscription;
 
   constructor(private dataService: DataService, private router : Router,
     private authService: AuthService) { }
@@ -30,19 +32,20 @@ export class OrderListComponent implements OnInit {
   ngOnInit(): void {
     this.displayedColumns = ['tableNo','OrderDate','sumOrder','discountOrder','Actions'];
     this.columnsToDisplay = this.displayedColumns.slice();
-    this.authService.user$.subscribe(
+    this.subscription = this.authService.user$.subscribe(
       res => {
         this.user = res;
-        this.dataService.getOrders(this.user).subscribe(actionArray => {
-          this.orders = actionArray.map(item => {
-            return {
-              id: item.payload.doc.id,
-              ...item.payload.doc.data() as Order
-            }
+        this.subscription.add(
+          this.dataService.getOrders(this.user).subscribe(actionArray => {
+            this.orders = actionArray.map(item => {
+              return {
+                id: item.payload.doc.id,
+                ...item.payload.doc.data() as Order
+              }
+            })
           })
-        });
-      }
-    )   
+        );
+      });
 
 /*     this.dataService.getOrders().subscribe(actionArray => {
       this.orders = actionArray.map(item => {
@@ -134,4 +137,8 @@ export class OrderListComponent implements OnInit {
   }
 
   openDialogNote(e: any){}
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
 }

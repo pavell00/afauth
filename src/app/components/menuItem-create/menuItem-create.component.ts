@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { DataService } from '../../core/services/data.service';
 import { menuItem } from '../../core/models/menuItem';
 import { NgForm } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ActivatedRoute, Router, NavigationExtras }     from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { Subscription, Observable, Subject } from 'rxjs';
 
 @Component({
     selector: 'menuItem-create',
     templateUrl: './menuItem-create.component.html',
     styleUrls: ['./menuItem-create.component.css']
 })
-export class MenuItemCreateComponent implements OnInit {
+export class MenuItemCreateComponent implements OnInit, OnDestroy  {
   formData: menuItem;
   id: string;
   name: string;
@@ -18,12 +19,13 @@ export class MenuItemCreateComponent implements OnInit {
   qty: number = 1;
   discount: number = 0;
   title: string;
+  subscription: Subscription;
 
   constructor(private dataService: DataService, private firestore: AngularFirestore,
     private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-      this.route.queryParams.subscribe(params => {
+    this.subscription = this.route.queryParams.subscribe(params => {
         this.formData = {
           id: params["menuid"],
           name: params['menuName'],
@@ -75,4 +77,8 @@ export class MenuItemCreateComponent implements OnInit {
     this.router.navigateByUrl('work/menu-list');
   }
 
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+  
 }

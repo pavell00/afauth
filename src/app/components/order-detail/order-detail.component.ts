@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Inject, AfterContentInit, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router, NavigationExtras }     from '@angular/router';
 import { Subscription, Observable, Subject } from 'rxjs';
@@ -28,7 +28,7 @@ export interface DialogData {
   styleUrls: ['./order-detail.component.css'],
   viewProviders: [MatExpansionPanel]
 })
-export class OrderDetailComponent implements OnInit, AfterContentInit {
+export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy {
   menulist : menuItem[] = [];
   filteredMenulist : menuItem[] = [];
   selectedMenu : menuItem[] = [];
@@ -65,7 +65,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
   }
   
   ngOnInit() {
-    this.dataService.getMenuList().subscribe(actionArray => {
+    this.subscription = this.dataService.getMenuList().subscribe(actionArray => {
       this.menulist = actionArray.map(item => {
         return {
           id: item.payload.doc.id,
@@ -74,14 +74,18 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
       })
     });
     // Capture the order ID if available
-    this.route.queryParams.subscribe(params => {
-      this.orderId = params["orderid"];
-    });
+    this.subscription.add(
+      this.route.queryParams.subscribe(params => {
+        this.orderId = params["orderid"];
+      })
+    )
+    this.subscription.add(
     this.auth.user$.subscribe(
-      res => {this.user= res}
-    );
+      res => {this.user= res})
+    )
     //get list items of order
     if (this.orderId) {
+      this.subscription.add(
       this.dataService.getSubCollection(this.orderId).subscribe(actionArray => {
         this.selectedMenu = actionArray.map(item => {
           return {
@@ -89,11 +93,12 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
             ...item.payload.doc.data()
           } as menuItem;
         });
-      });
+      })
+      )
     }
     // get order params
     if (this.orderId) {
-      this.dataService.getOrder(this.orderId).subscribe(actionArray => {
+      this.subscription.add(this.dataService.getOrder(this.orderId).subscribe(actionArray => {
         this.currentOrder = actionArray.payload.data() as Order;
         this.tableNo = this.currentOrder.tableNo;
         this.orderDate = this.currentOrder.OrderDate.toString();
@@ -112,7 +117,8 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
         //--- for mat-slide-toggle 
         this.done = this.currentOrder.isDone;
         this.doneInfo = this.done ? 'Закрыт': 'Открыт';
-      });
+      })
+      )
     }
   }
 
@@ -412,6 +418,10 @@ export class OrderDetailComponent implements OnInit, AfterContentInit {
         break;
     }
     //this.useDefault = event.checked;
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
 }

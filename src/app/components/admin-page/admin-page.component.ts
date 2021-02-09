@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/models/user';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Subscription, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'admin-page',
@@ -19,11 +21,12 @@ export class AdminPageComponent implements OnInit {
   users: User[]=[];
   displayedColumns = ['displayName', 'email'];
   expandedElement: any;
+  subscription: Subscription;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.getUsers().subscribe(actionArray => {
+    this.subscription = this.authService.getUsers().subscribe(actionArray => {
       this.users = actionArray.map(item => {
         return {
           id: item.payload.doc.id,
@@ -37,5 +40,9 @@ export class AdminPageComponent implements OnInit {
     //console.log(e.source.id, item, item.roles[e.source.id])
     //item.roles[e.source.id]=!item.roles[e.source.id]
     this.authService.changeUserRights(e.source.id, item.uid, item.roles[e.source.id])
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 }

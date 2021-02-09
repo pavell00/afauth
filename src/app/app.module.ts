@@ -24,6 +24,7 @@ import { OrderCreateComponent } from './components/order-create/order-create.com
 import { OrderDetailComponent, DialogEditOrderItem, DialogEditNote } from './components/order-detail/order-detail.component';
 import { OrderListComponent } from './components/orders-list/orders-list.component';
 import { PrintFormComponent } from './components/print-form/print-form.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { PrintFormComponent } from './components/print-form/print-form.component
         guardProtectedRoutesUntilEmailIsVerified: false,
         enableEmailVerification: false, // default: true
       }),
-    FormsModule
+    FormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   entryComponents: [DialogEditOrderItem, DialogEditNote],
