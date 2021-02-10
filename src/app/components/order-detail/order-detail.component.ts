@@ -33,7 +33,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
   filteredMenulist : menuItem[] = [];
   selectedMenu : menuItem[] = [];
   displayedColumns = ['add','name', 'price', 'qty', 'discount'];
-  displayedCols = ['name', 'price', 'qty', 'sum', 'Actions'];
+  displayedCols = ['name', 'price', 'qty', 'sum', 'Actions','Description'];
   subscription: Subscription;
 
   currentOrder: Order;
@@ -318,23 +318,25 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
     this.dataService.updateRecalculatedOrderSums (this.orderId, this.orderSum, this.orderSumToPay)
   }
 
-  onDelete(id: string) {
+  onDelete(item: menuItem) {
     //удаляем элемент через пересодание массива 
     //т.к. два mat-table не хотят сами авто-рефрешится 
     //когда живут на одной странице
     //console.log(id, this.selectedMenu)
-    for(let i = 0; i < this.selectedMenu.length; i++) {
-      if(this.selectedMenu[i].id == id) {
-        this.selectedMenu.splice(i, 1);
+    if (confirm("Вы уверенны что хотите удалить блюдо?")) {
+      for(let i = 0; i < this.selectedMenu.length; i++) {
+        if(this.selectedMenu[i].id == item.id) {
+          this.selectedMenu.splice(i, 1);
+        }
       }
+      let cloned = [...this.selectedMenu];
+      this.selectedMenu = cloned;
+      //recalc doc sum
+      this.caclSumOrder()
+      //delete row of menuItem from DB
+      this.dataService.deleteLineInOrderDatail(item, this.orderId, this.user)
+      this.dataService.updateRecalculatedOrderSums (this.orderId, this.orderSum, this.orderSumToPay)
     }
-    let cloned = [...this.selectedMenu];
-    this.selectedMenu = cloned;
-    //recalc doc sum
-    this.caclSumOrder()
-    //delete row of menuItem from DB
-    this.dataService.deleteLineInOrderDatail(id, this.orderId)
-    this.dataService.updateRecalculatedOrderSums (this.orderId, this.orderSum, this.orderSumToPay)
   }
 
   changeQty(item: menuItem, val: number) {

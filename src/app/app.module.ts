@@ -22,7 +22,7 @@ import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { MenuItemCreateComponent } from './components/menuItem-create/menuItem-create.component';
 import { OrderCreateComponent } from './components/order-create/order-create.components';
 import { OrderDetailComponent, DialogEditOrderItem, DialogEditNote } from './components/order-detail/order-detail.component';
-import { OrderListComponent } from './components/orders-list/orders-list.component';
+import { OrderListComponent, DialogEditNoteOrder } from './components/orders-list/orders-list.component';
 import { PrintFormComponent } from './components/print-form/print-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -32,7 +32,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     UserProfileComponent,
     WorkComponent,
     WelcomeComponent,
-    DialogEditOrderItem, DialogEditNote,
+    DialogEditOrderItem, DialogEditNote, DialogEditNoteOrder,
     AdminPageComponent, MenuListComponent, MenuItemCreateComponent,
     OrderCreateComponent, OrderDetailComponent, OrderListComponent,
     PrintFormComponent
@@ -68,7 +68,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
-  entryComponents: [DialogEditOrderItem, DialogEditNote],
+  entryComponents: [DialogEditOrderItem, DialogEditNote, DialogEditNoteOrder],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

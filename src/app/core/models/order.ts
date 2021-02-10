@@ -15,4 +15,5 @@ export class Order {
   place?: string = 'Зал';
   printed?: string = '';
   user?: string = '';
+  description?: string = ';'
 }

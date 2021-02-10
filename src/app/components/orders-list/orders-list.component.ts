@@ -1,5 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 //import * as copy from 'copy-to-clipboard';
 //import copy from 'copy-to-clipboard';
@@ -8,6 +10,12 @@ import { menuItem } from '../../core/models/menuItem';
 import { DataService } from '../../core/services/data.service';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from 'src/app/core/models/user';
+
+export interface DialogData {
+  id: string;
+  tableNo: string;
+  description: string;
+}
 
 @Component({
   selector: 'orders-list',
@@ -24,13 +32,14 @@ export class OrderListComponent implements OnInit, OnDestroy {
   strLine5: string;
   maxLength: number;
   maxLengthFoodName: number;
+  newData: any;
   private subscription: Subscription;
 
   constructor(private dataService: DataService, private router : Router,
-    private authService: AuthService) { }
+    private authService: AuthService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.displayedColumns = ['tableNo','OrderDate','sumOrder','discountOrder','Actions'];
+    this.displayedColumns = ['tableNo','OrderDate','sumOrder','discountOrder','Actions','Description'];
     this.columnsToDisplay = this.displayedColumns.slice();
     this.subscription = this.authService.user$.subscribe(
       res => {
@@ -101,7 +110,9 @@ export class OrderListComponent implements OnInit, OnDestroy {
   }
 
   deleteOrder(id: string) {
-    this.dataService.deleteOrder(id)
+    if (confirm("Вы уверенны что хотите удалить заказ?")) {
+      this.dataService.deleteOrder(id);
+    }
   }
 
   printForm(order: Order) {
@@ -136,9 +147,49 @@ export class OrderListComponent implements OnInit, OnDestroy {
     //this.router.navigateByUrl('/print-form', navigationExtras);
   }
 
-  openDialogNote(e: any){}
+  openDialogNote(item: Order): void {
+    const dialogRef = this.dialog.open(DialogEditNoteOrder, {
+      width: '250px',
+      data: {id: item.id, tableNo: item.tableNo, description: item.description}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      let orderId: string='';
+       if (result) {
+        this.newData = result;
+        //console.log(this.newData);
+        //refresh data in array
+        for(let i = 0; i < this.orders.length; i++) {
+          if(this.orders[i].id == this.newData.id) {
+            this.orders[i].description = this.newData.description;
+            orderId = this.orders[i].id
+          }
+        }
+        //update data in DB ollection
+        this.dataService.addDescriptionToOrder(this.newData.description, orderId)
+      }
+    });
+  }
 
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+}
+
+@Component({
+  selector: 'dialog-note',
+  templateUrl: './edit-dialogNote.html',
+  styleUrls: ['./edit-dialogNote.css']
+})
+export class DialogEditNoteOrder{
+  description: string;
+
+  constructor(
+    public dialogRefNote: MatDialogRef<DialogEditNoteOrder>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    this.dialogRefNote.close();
+  }
+
 }

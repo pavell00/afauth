@@ -158,8 +158,8 @@ export class DataService {
     }
   }
 
-  async deleteLineInOrderDatail (id: string, orderId: string) {
-    var lineRef = this.firestore.collection('orders').doc(orderId).collection('lines').doc(id)
+  async deleteLineInOrderDatail (item: menuItem, orderId: string, user: User) {
+    var lineRef = this.firestore.collection('orders').doc(orderId).collection('lines').doc(item.id)
     try {
       await lineRef.delete()
       this.openSnackBar('Удаление элемента', 'завершено...');
@@ -191,5 +191,21 @@ export class DataService {
     } catch (error) {
       console.error("Error chanching status in <line> collection: ", error);
     } 
+  }
+
+  async addDescriptionToOrder(description: string, orderId: string) {
+    var lineRef = this.firestore.collection('orders').doc(orderId)
+    try {
+      await lineRef.set({
+        description: description,
+      }, {merge: true})
+      this.openSnackBar('Обновление элемента', 'завершено...');
+    } catch (error) {
+      console.error("Error adding description to Order: ", error);
+    } 
+  }
+
+  async moveToTrash() {
+
   }
 }
