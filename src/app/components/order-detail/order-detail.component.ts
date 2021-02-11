@@ -35,6 +35,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
   displayedColumns = ['add','name', 'price', 'qty', 'discount'];
   displayedCols = ['name', 'price', 'qty', 'sum', 'Actions','Description'];
   subscription: Subscription;
+  isGetRight: boolean = false;
 
   currentOrder: Order;
   user: User;
@@ -81,7 +82,8 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
     )
     this.subscription.add(
     this.auth.user$.subscribe(
-      res => {this.user= res})
+      res => {this.user= res;
+        this.isGetRight = this.auth.canRemoveMenuItem(this.user)})
     )
     //get list items of order
     if (this.orderId) {

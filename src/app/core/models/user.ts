@@ -7,5 +7,6 @@ export interface Roles {
 export class User {
     uid: string;
     email: string;
-    roles: Roles;
+    //roles: Roles;
+    role: string;
 }

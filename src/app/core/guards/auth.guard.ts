@@ -4,7 +4,7 @@ import { CanActivate, ActivatedRouteSnapshot,
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { tap, map, take,switchMap } from 'rxjs/operators';
-import { AuthService } from './services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'

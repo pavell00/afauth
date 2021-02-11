@@ -25,6 +25,7 @@ export interface DialogData {
 export class OrderListComponent implements OnInit, OnDestroy {
   orders: Order[] = [];
   user: User;
+  isGetRight: boolean = false;
   displayedColumns: string[] = [];
   columnsToDisplay: string[] = [];
   header: string;
@@ -44,6 +45,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.user$.subscribe(
       res => {
         this.user = res;
+        this.isGetRight = this.authService.canRemoveMenuItem(this.user)
         this.subscription.add(
           this.dataService.getOrders(this.user).subscribe(actionArray => {
             this.orders = actionArray.map(item => {
@@ -55,20 +57,6 @@ export class OrderListComponent implements OnInit, OnDestroy {
           })
         );
       });
-
-/*     this.dataService.getOrders().subscribe(actionArray => {
-      this.orders = actionArray.map(item => {
-        return {
-          id: item.payload.doc.id,
-          ...item.payload.doc.data() as Order
-        }
-    }); */
-
-/*     this.dataService.getOrders().subscribe(actionArray => {
-      console.log(actionArray)
-      this.orders = actionArray
-      console.log(this.orders)
-    }); */
   }
 
   onCreateOrder() {

@@ -90,7 +90,7 @@
               <mat-icon>note_add</mat-icon>
               <span>Примечание</span>
             </button>
-            <button mat-menu-item (click)="onDelete(element)" disabled> 
+            <button mat-menu-item (click)="onDelete(element)"  *ngIf="isGetRight"> 
               <mat-icon>delete_outline</mat-icon>
               <span>Удалить</span>
             </button>

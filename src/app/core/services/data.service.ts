@@ -29,7 +29,7 @@ export class DataService {
 
   getOrders(user: User) {
     //return this.firestore.collection('orders').snapshotChanges();
-    if (user.roles['admin']) {
+    if (user.role == 'director' || user.role == 'restaurantAdmin' ) {
       return this.firestore.collection('orders').snapshotChanges();
     } else {
       return this.firestore.collection('orders', ref => ref.where('user', '==', user.uid))

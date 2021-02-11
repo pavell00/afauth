@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from './core/auth.guard';
-import { AdminGuard } from './core/admin.guard';
-import { CanReadGuard } from './core/can-read.guard';
+import { AuthGuard } from './core/guards/auth.guard';
+import { AdminGuard } from './core/guards/admin.guard';
+import { CanReadGuard } from './core/guards/can-read.guard';
+import { CanWorkWithOrdersGuard } from './core/guards/canWorkWithOrders.quards';
+import { CanViewDeletedMenuItemGuard } from './core/guards/canViewDeletedMenuItem.guards';
 
 import { WorkComponent } from './components/work/work.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminPageComponent } from './components/admin-page/admin-page.component';
-
 import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { MenuItemCreateComponent } from './components/menuItem-create/menuItem-create.component';
 import { OrderCreateComponent } from './components/order-create/order-create.components';
@@ -19,9 +20,9 @@ import { PrintFormComponent } from './components/print-form/print-form.component
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent},
-  { path: 'work', component: WorkComponent, canActivate: [CanReadGuard]},
+  { path: 'work', component: WorkComponent, canActivate: [CanWorkWithOrdersGuard]},
   //{ path: 'work/orders-list', component: WorkComponent, canActivate: [CanReadGuard]},
-  { path: 'work', component: WorkComponent, canActivate: [CanReadGuard], children: [
+  { path: 'work', component: WorkComponent, canActivate: [CanWorkWithOrdersGuard], children: [
     { path: 'orders-list', component: OrderListComponent },
     { path: 'order-detail', component: OrderDetailComponent },
     { path: 'menu-list', component: MenuListComponent },
@@ -30,7 +31,7 @@ const routes: Routes = [
     { path: 'print-form', component: PrintFormComponent },
   ] },
   //{ path: 'work/order-detail', component: OrderDetailComponent },
-  { path: 'admin-page', component: AdminPageComponent, canActivate: [AdminGuard] },
+  { path: 'admin-page', component: AdminPageComponent, canActivate: [CanViewDeletedMenuItemGuard] },
   { path: 'user-profile', component: UserProfileComponent },
   { path: '',  redirectTo: '/welcome',  pathMatch: 'full' }
 ];

@@ -42,7 +42,8 @@ export class AuthService {
     this.isLoggedIn = true;
     return this.afAuth.signInWithPopup(provider)
       .then((credential) => {
-        this.updateUserData(credential.user)
+        //this.updateUserData(credential.user)
+        localStorage.setItem('user', JSON.stringify(credential.user));
       }).catch(
         (error) => window.alert(error)
       )
@@ -62,7 +63,7 @@ export class AuthService {
 
   private updateUserData(user) {
     // Sets user data to firestore on login
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+/*     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const data: User = {
       uid: user.uid,
       email: user.email,
@@ -72,7 +73,27 @@ export class AuthService {
       }
     }
     localStorage.setItem('user', JSON.stringify(user));
-    return userRef.set(data, { merge: true })
+    return userRef.set(data, { merge: true }) */
+  }
+
+  canWorkWithOrders(user: User): boolean {
+    const allowed = ['restaurantAdmin', 'director', 'waitor']
+    return this.checkAuthorization(user, allowed)
+  }
+
+  canRemoveMenuItem(user: User): boolean {
+    const allowed = ['restaurantAdmin', 'director']
+    return this.checkAuthorization(user, allowed)
+  }
+
+  canViewDeletedMenuItem(user: User): boolean {
+    const allowed = ['director']
+    return this.checkAuthorization(user, allowed)
+  }
+
+  canChangeMenu(user: User): boolean {
+    const allowed = ['restaurantAdmin', 'director']
+    return this.checkAuthorization(user, allowed)
   }
 
   canRead(user: User): boolean {
@@ -93,7 +114,9 @@ export class AuthService {
   private checkAuthorization(user: User, allowedRoles: string[]): boolean {
     if (!user) return false
     for (const role of allowedRoles) {
-      if (user.roles[role]) {
+      //if (user.roles[role]) {
+      //  console.log(user.role, role)
+      if (user.role == role) {
         return true
       }
     }
@@ -102,6 +125,10 @@ export class AuthService {
 
   public getUsers(){
     return this.afs.collection('users').snapshotChanges();
+  }
+
+  public getRoles(){
+    return this.afs.collection('roles').snapshotChanges();
   }
 
   changeUserRights(rightName: string, uid: string, flag: boolean) {
