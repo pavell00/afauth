@@ -1,4 +1,4 @@
-<p style="display: flex; justify-content: center;">Заказы официанта</p>
+<p style="display: flex; justify-content: center;">Заказы официанта: {{userName}}</p>
 <table mat-table [dataSource]="orders" class="mat-elevation-z8">
 
   <ng-container matColumnDef="tableNo">
@@ -37,7 +37,7 @@
           <mat-icon>note_add</mat-icon>
           <span>Примечание</span>
         </button>
-        <button mat-menu-item (click)="deleteOrder(element.id)" *ngIf="isGetRight"> 
+        <button mat-menu-item (click)="deleteOrder(element)" *ngIf="isGetRight"> 
           <mat-icon>delete_outline</mat-icon>
           <span>Удалить</span>
         </button>

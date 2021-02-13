@@ -5,6 +5,7 @@ import firebase from 'firebase/app';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../models/user';
 
 @Injectable({
@@ -16,7 +17,8 @@ export class AuthService {
 
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
-              private router: Router) {
+              private router: Router,
+              private _snackBar: MatSnackBar) {
 
     //// Get auth data, then get firestore user document || null
     this.user$ = this.afAuth.authState.pipe(
@@ -147,4 +149,33 @@ export class AuthService {
     }
   }
 
+  async setRole(name: string, roleRUS: string, user: User) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    try {
+      await userRef.set({
+        role: name,
+        roleRUS: roleRUS
+      }, {merge:true})
+      //this.openSnackBar('Обновление элемента', 'завершено...');
+    } catch (error) {
+      console.error("Error updating <user> collection: ", error);
+    }
+  }
+
+  async setUserName(name: string, uid: string) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${uid}`);
+    try {
+      await userRef.set({
+        userName: name
+      }, {merge:true})
+      this.openSnackBar('Обновление элемента', 'завершено...');
+    } catch (error) {
+      console.error("Error updating <user> collection: ", error);
+    }
+  }
+
+  openSnackBar(title: string, msg: string) {
+    this._snackBar.open(title, msg, 
+      {duration: 300, verticalPosition: 'top'})
+  }
 }

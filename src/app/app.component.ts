@@ -2,7 +2,7 @@ import { Component, ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './core/services/auth.service';
 import { DataService } from './core/services/data.service';
-import { version } from '../../package.json';
+
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ export class AppComponent implements OnDestroy, OnInit {
   isLogin: boolean = false;
   mobileQuery: MediaQueryList;
   img: string = '213116.jpg';
-  public version: string = version;
+
   opened: boolean;
 
   fillerNav = Array.from({length: 12}, (_, i) => `Nav Item ${i + 1}`);

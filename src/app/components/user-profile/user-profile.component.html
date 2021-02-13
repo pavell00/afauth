@@ -21,15 +21,19 @@
 <!-- User logged in -->
 <ng-template #authenticated>
   <div *ngIf="auth.user$ | async as user">
-    <h3>Howdy, {{ user.displayName }}</h3>
-    <img  src="assets/213116.jpg" width="50px">
+    <h3>Hello, {{ user.userName }}</h3>
+    <img  src="{{user.photoURL}}" width="50px">
     <p>email: {{ user.email }}</p>
-    <p>UID: {{ user.uid }}</p>
-    <p>Role: {{ user.roles | json }}</p>
-    <button (click)="auth.signOut()" class="button">Logout</button>
-    <a routerLink="/work" routerLinkActive="active">Work</a>
-    <hr>
+    <p>Должность: {{ user.roleRUS }}</p>
+    <div>
+      <mat-form-field>
+        <input matInput type="text" [(ngModel)]="user.userName" placeholder="Фамилия и имя">
+      </mat-form-field>
+    </div>
+    <button mat-mini-fab color="primary" (click)="onSave(user.userName, user.uid)">
+      <i class="material-icons">save</i>
+    </button>
   </div>
-
+  <p> ver. {{ version }}</p>
 </ng-template>
 

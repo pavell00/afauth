@@ -61,16 +61,22 @@ export class DataService {
     //return this.firestore.collection('orders').doc(id);
   }
 
-  deleteOrder(id: string) {
+  deleteOrder(order: Order, userName: string) {
     //this.firestore.collection('orders').doc(id).ref.collection('lines').parent.delete();
     //this.firestore.collection('orders').doc(id).delete();
-    this.firestore.collection('orders').doc(id).collection('lines').get()
+    this.firestore.collection('orders').doc(order.id).collection('lines').get()
     .toPromise().then(
       snapshot => {snapshot.forEach( item => {
          item.ref.delete()
          }
-       ),
-       this.firestore.collection('orders').doc(id).delete(),
+       );
+       let element : menuItem = {
+        name : 'весь заказ',
+        qty : 1,
+        price : order.sumToPay
+       }
+       this.moveToTrash(element, userName, order.tableNo, order.OrderDate.toString())
+       this.firestore.collection('orders').doc(order.id).delete(),
        this.openSnackBar('Удаление заказа...', 'завершено!')
       }
     )
@@ -158,10 +164,12 @@ export class DataService {
     }
   }
 
-  async deleteLineInOrderDatail (item: menuItem, orderId: string, user: User) {
+  async deleteLineInOrderDatail (item: menuItem, orderId: string, userName: string, 
+    tableNo: string, orderDate: string) {
     var lineRef = this.firestore.collection('orders').doc(orderId).collection('lines').doc(item.id)
     try {
-      await lineRef.delete()
+      await this.moveToTrash(item, userName, tableNo, orderDate);
+      await lineRef.delete();
       this.openSnackBar('Удаление элемента', 'завершено...');
     } catch (error) {
       console.error("Error deleting line menuItem : ", error);
@@ -205,7 +213,25 @@ export class DataService {
     } 
   }
 
-  async moveToTrash() {
+  async moveToTrash(item: menuItem, userName: string, 
+    tableNo: string, orderDate: string) {
+      let res = this.firestore.collection('trash').add({
+        orderDate: orderDate,
+        tableNo: tableNo,
+        name: item.name,
+        qty: item.qty,
+        price: item.price,
+        sumItem: item.price * item.qty,
+        user: userName,
+        actDate: new Date()
+      }).then(
+        (w) => {
+          //this.dataService.openSnackBar('Сохраниение зказа...', 'завершено!');
+          }
+      )
+    }
 
+  getTrash() {
+    return this.firestore.collection('trash').snapshotChanges();
   }
 }

@@ -9,4 +9,12 @@ export class User {
     email: string;
     //roles: Roles;
     role: string;
+    roleRUS: string;
+    userName: string;
 }
+
+export class Role { 
+    id?: string;
+    place?: string;
+    type?: string;
+ }

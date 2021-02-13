@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { AuthService } from '../../core/services/auth.service';
-import { User } from '../../core/models/user';
+import { User, Role } from '../../core/models/user';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Subscription, Observable, Subject } from 'rxjs';
+import { Subscription, Observable, Subject, forkJoin } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'admin-page',
@@ -18,8 +19,10 @@ import { Subscription, Observable, Subject } from 'rxjs';
   ],
 })
 export class AdminPageComponent implements OnInit {
-  users: User[]=[];
-  displayedColumns = ['displayName', 'email'];
+  users: User[] = [];
+  roles: Role[] = [];
+  res: any[] = [];
+  displayedColumns = ['displayName', 'email','role','Act'];
   expandedElement: any;
   subscription: Subscription;
 
@@ -34,7 +37,21 @@ export class AdminPageComponent implements OnInit {
         } //as menuItem;
       })
     });
+    this.subscription.add(
+      this.authService.getRoles().subscribe(actionArray => {
+        this.roles = actionArray.map(item => {
+          return {
+            id: item.payload.doc.id,
+            ...item.payload.doc.data() as Role
+          } //as menuItem;
+        })
+      })
+    );
   }
+
+  public changeRole(role: string, roleRUS: string, user: User) {
+    this.authService.setRole(role, roleRUS, user);
+   }
 
   toggle(e: any, item: any) {
     //console.log(e.source.id, item, item.roles[e.source.id])

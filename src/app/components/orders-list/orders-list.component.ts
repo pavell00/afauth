@@ -34,6 +34,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
   maxLength: number;
   maxLengthFoodName: number;
   newData: any;
+  userName: string;
   private subscription: Subscription;
 
   constructor(private dataService: DataService, private router : Router,
@@ -45,6 +46,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.user$.subscribe(
       res => {
         this.user = res;
+        this.userName = res.userName;
         this.isGetRight = this.authService.canRemoveMenuItem(this.user)
         this.subscription.add(
           this.dataService.getOrders(this.user).subscribe(actionArray => {
@@ -97,9 +99,9 @@ export class OrderListComponent implements OnInit, OnDestroy {
     return txt;
   }
 
-  deleteOrder(id: string) {
+  deleteOrder(order: Order) {
     if (confirm("Вы уверенны что хотите удалить заказ?")) {
-      this.dataService.deleteOrder(id);
+      this.dataService.deleteOrder(order, this.user.userName);
     }
   }
 

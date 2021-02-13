@@ -32,7 +32,9 @@ export class OrderCreateComponent implements OnInit {
 
     ngOnInit(): void {
       this.auth.user$.subscribe(
-        res => {this.user= res}
+        res => {this.user= res;
+        this.waiter = this.printed = res.userName;
+      }
       );
       let d = new Date();
       let day = d.getDate();

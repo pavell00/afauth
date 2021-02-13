@@ -17,6 +17,7 @@ import { OrderCreateComponent } from './components/order-create/order-create.com
 import { OrderDetailComponent } from './components/order-detail/order-detail.component';
 import { OrderListComponent } from './components/orders-list/orders-list.component';
 import { PrintFormComponent } from './components/print-form/print-form.component';
+import { TrashComponent } from './components/trash/trash.component';
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent},
@@ -32,6 +33,7 @@ const routes: Routes = [
   ] },
   //{ path: 'work/order-detail', component: OrderDetailComponent },
   { path: 'admin-page', component: AdminPageComponent, canActivate: [CanViewDeletedMenuItemGuard] },
+  { path: 'trash', component: TrashComponent, canActivate: [CanViewDeletedMenuItemGuard] },
   { path: 'user-profile', component: UserProfileComponent },
   { path: '',  redirectTo: '/welcome',  pathMatch: 'full' }
 ];

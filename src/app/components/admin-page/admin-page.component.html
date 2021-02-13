@@ -5,29 +5,60 @@
   <div>
     <table mat-table [dataSource]="users" multiTemplateDataRows class="mat-elevation-z8">
 
-        <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
-            <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-        </ng-container>
+      <ng-container matColumnDef="displayName">
+          <th mat-header-cell *matHeaderCellDef>Имя</th>
+          <td mat-cell *matCellDef="let element"> {{element.displayName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Должность</th>
+        <td mat-cell *matCellDef="let element"> {{element.roleRUS}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Act">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">       
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button> 
+          <mat-menu #menu="matMenu">
+            <mat-icon> </mat-icon>
+            <button mat-menu-item (click)="changeRole('director', 'Директор', element)">
+              <span>Директор</span>
+            </button>
+            <button mat-menu-item (click)="changeRole('waitor', 'Официант', element)">
+              <span>Официант</span>
+            </button>
+            <button mat-menu-item (click)="changeRole('restaurantAdmin', 'Администратор ресторана', element)"> 
+              <span>Администратор ресторана</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
 
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
+<!--        <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
             <div class="example-element-detail"
                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                <mat-slide-toggle id="admin" [checked]="element.roles['admin']" (change)="toggle($event,expandedElement)">admin</mat-slide-toggle>
+                 <mat-slide-toggle id="admin" [checked]="element.roles['admin']" (change)="toggle($event,expandedElement)">admin</mat-slide-toggle>
                 <mat-slide-toggle id="editor" [checked]="element.roles['editor']" (change)="toggle($event,expandedElement)">editor</mat-slide-toggle>
                 <mat-slide-toggle id="subscriber" [checked]="element.roles['subscriber']" (change)="toggle($event,expandedElement)">subscriber</mat-slide-toggle>
             </div>
             </td>
-        </ng-container>
+        </ng-container> -->
 
-<!--       <ng-container matColumnDef="qty">
+<!--      <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef>К-во</th>
-        <td mat-cell *matCellDef="let element" (click)="editMenuItem(element)"> {{element.qty}} </td>
-      </ng-container>
+        <td mat-cell *matCellDef="let element" (click)="editMenuItem(element)"> {{100}} </td>
+      </ng-container> -->
   
-      <ng-container matColumnDef="Del">
+<!--           <ng-container matColumnDef="Del">
         <th mat-header-cell *matHeaderCellDef>Del</th>
         <td mat-cell *matCellDef="let element">
             <button mat-mini-fab color="warn" (click)="onDelete(element.id)">
@@ -37,10 +68,10 @@
       </ng-container> -->
   
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+<!--         <tr mat-row *matRowDef="let element; columns: displayedColumns;"
             class="example-element-row"
             [class.example-expanded-row]="expandedElement === element"
-            (click)="expandedElement = expandedElement === element ? null : element"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+            (click)="expandedElement = expandedElement === element ? null : element"></tr> -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>

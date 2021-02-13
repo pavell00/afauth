@@ -1,13 +1,13 @@
 <div>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>Детали заказа</mat-panel-title>
+      <mat-panel-title>Детали заказа по столу № {{tableNo}}</mat-panel-title>
     </mat-expansion-panel-header>
     <mat-form-field style="text-align: center; width: 40px;">
-      <input matInput [(ngModel)]="tableNo"placeholder="Номер стола">
+      <input matInput [(ngModel)]="tableNo"placeholder="Cтол" [disabled]="true">
     </mat-form-field>
     <mat-form-field style="text-align: center; width: 80px;">
-      <input matInput [(ngModel)]="orderDate" placeholder="Открыт стол">
+      <input matInput [(ngModel)]="orderDate" placeholder="Открыт стол" [disabled]="true">
     </mat-form-field> 
     <mat-form-field style="text-align: right; width: 60px;">
       <input matInput type="number" [(ngModel)]="orderSum" placeholder="Сумма счета">
@@ -25,23 +25,24 @@
       <input matInput type="number" [(ngModel)]="orderSumToPay" placeholder="Сумма к оплате">
     </mat-form-field>
     <mat-form-field style="text-align: center; width: 40px;">
-      <input matInput type="number" [(ngModel)]="orderGuests" placeholder="Гостей">
+      <input matInput type="number" [(ngModel)]="orderGuests" 
+      placeholder="Гостей" min="1" step="1">
     </mat-form-field>
-    <mat-form-field style="text-align: center; width: 110px;">
+<!--     <mat-form-field style="text-align: center; width: 110px;">
       <input matInput [(ngModel)]="printTime" placeholder="Время печати">
-    </mat-form-field>
-    <mat-form-field style="text-align: center; width: 50px;">
+    </mat-form-field> -->
+<!--     <mat-form-field style="text-align: center; width: 50px;">
       <input matInput [(ngModel)]="place" placeholder="Место">
-    </mat-form-field>
+    </mat-form-field> -->
     <mat-form-field style="text-align: center; width: 100px;">
-      <input matInput [(ngModel)]="waiter" placeholder="Официант">
+      <input matInput [(ngModel)]="waiter" placeholder="Официант" [disabled]="true">
     </mat-form-field>
-    <mat-form-field style="text-align: center; width: 100px;">
+<!--     <mat-form-field style="text-align: center; width: 100px;">
       <input matInput [(ngModel)]="printed" placeholder="Кассир">
     </mat-form-field>
     <mat-form-field style="text-align: center; width: 80px;">
       <input matInput [(ngModel)]="orderCheck" placeholder="Номер чека">
-    </mat-form-field>
+    </mat-form-field> -->
   </mat-expansion-panel>
 </div>
 
@@ -115,7 +116,9 @@
       <button mat-mini-fab color="primary" (click)="onSave()">
           <i class="material-icons">save</i>
       </button>
-      <mat-slide-toggle [checked]="done" (change)="toggle($event)">{{ doneInfo }}</mat-slide-toggle>
+      <mat-slide-toggle [checked]="done" (change)="toggle($event)" [disabled]="done">
+        {{ doneInfo }}
+      </mat-slide-toggle>
       <!--<button mat-mini-fab color="primary" (click)="printForm('almondo')">
           <i class="material-icons">pageview</i>
       </button>-->

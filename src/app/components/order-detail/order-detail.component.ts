@@ -336,8 +336,10 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
       //recalc doc sum
       this.caclSumOrder()
       //delete row of menuItem from DB
-      this.dataService.deleteLineInOrderDatail(item, this.orderId, this.user)
-      this.dataService.updateRecalculatedOrderSums (this.orderId, this.orderSum, this.orderSumToPay)
+      this.dataService.deleteLineInOrderDatail(item, this.orderId, this.user.userName,
+         this.tableNo, this.orderDate);
+      this.dataService.updateRecalculatedOrderSums (this.orderId, this.orderSum, 
+        this.orderSumToPay);
     }
   }
 

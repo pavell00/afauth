@@ -25,6 +25,7 @@ import { OrderDetailComponent, DialogEditOrderItem, DialogEditNote } from './com
 import { OrderListComponent, DialogEditNoteOrder } from './components/orders-list/orders-list.component';
 import { PrintFormComponent } from './components/print-form/print-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { TrashComponent } from './components/trash/trash.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     DialogEditOrderItem, DialogEditNote, DialogEditNoteOrder,
     AdminPageComponent, MenuListComponent, MenuItemCreateComponent,
     OrderCreateComponent, OrderDetailComponent, OrderListComponent,
-    PrintFormComponent
+    PrintFormComponent,
+    TrashComponent
   ],
   imports: [
     BrowserModule,

@@ -2,24 +2,26 @@
     <input matInput [(ngModel)]="orderNo" placeholder="Номер стола">
 </mat-form-field>
 <mat-form-field>
-    <input matInput [(ngModel)]="orderDate" placeholder="Дата / время стола">
+    <input matInput [(ngModel)]="orderDate" placeholder="Дата / время стола" 
+    [disabled]="true">
 </mat-form-field>
-<mat-form-field style="text-align: right;">
+<!-- <mat-form-field style="text-align: right;">
     <input matInput type="number" [(ngModel)]="orderDiscount" placeholder="Дисконт">
-</mat-form-field>
+</mat-form-field> -->
 <mat-form-field style="text-align: right;">
-    <input matInput type="number" [(ngModel)]="orderGuests" placeholder="Гостей">
+    <input matInput type="number" [(ngModel)]="orderGuests" 
+    placeholder="Гостей" min="1" step="1">
 </mat-form-field>
-<mat-form-field style="text-align: right;">
+<!-- <mat-form-field style="text-align: right;">
     <input matInput type="number" [(ngModel)]="orderSumService" placeholder="Сумма за обслуживание">
 </mat-form-field>
 <mat-form-field style="text-align: right;">
     <input matInput [(ngModel)]="place" placeholder="Место">
-</mat-form-field>
+</mat-form-field> -->
 <mat-form-field style="text-align: right;">
-    <input matInput [(ngModel)]="waiter" placeholder="Официант">
+    <input matInput [(ngModel)]="waiter" placeholder="Официант" [disabled]="true">
 </mat-form-field>
-<mat-form-field style="text-align: right;">
+<!-- <mat-form-field style="text-align: right;">
     <input matInput [(ngModel)]="printed" placeholder="Кассир">
 </mat-form-field>
 <mat-form-field style="text-align: right;">
@@ -27,7 +29,7 @@
 </mat-form-field>
 <mat-form-field style="text-align: right;">
     <input matInput [(ngModel)]="orderCheck" placeholder="Номер чека">
-</mat-form-field>
+</mat-form-field> -->
 <div>
     <button mat-mini-fab color="warn" (click)="onSave()">
         <i class="material-icons">save</i>
