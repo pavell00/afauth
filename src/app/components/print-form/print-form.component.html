@@ -24,8 +24,8 @@
         
       <div style="display: flex; justify-content: space-between;font-family: Arial Narrow;">
         <p>{{ shortOrderDate }}</p>
-        <p>Открыт: {{ timeOpenTable }}</p>
-        <p>Печать: {{ shortPrintTime }}</p>
+        <p>Открыт: {{ orderDate | date:'yyyy/MM/dd' }}</p>
+        <p>Печать: {{ printTime2 | date:'mm:ss' }}</p>
       </div>
     </div>
     

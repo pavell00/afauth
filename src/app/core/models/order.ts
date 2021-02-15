@@ -1,7 +1,7 @@
 export class Order {
   id?: string;
   tableNo?: string = '1';
-  OrderDate?: String;
+  orderDate?: Date;
   isDone?: boolean = false;
   sumOrder?: number = 0;
   discountOrder?: number = 0;

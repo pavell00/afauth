@@ -16,6 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
   @NgModule({
     imports: [
@@ -24,7 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
       MatFormFieldModule, MatTableModule, MatDialogModule,
       MatInputModule, MatSidenavModule, MatToolbarModule,
       MatSelectModule, MatCheckboxModule,
-      MatExpansionModule, MatMenuModule
+      MatExpansionModule, MatMenuModule, MatDatepickerModule
     ],
     exports: [
       MatSidenavModule,
@@ -41,7 +42,8 @@ import { MatMenuModule } from '@angular/material/menu';
       MatSnackBarModule,
       MatSlideToggleModule,
       MatExpansionModule,
-      MatMenuModule
+      MatMenuModule,
+      MatDatepickerModule
     ],
     providers: [ 
       { provide: MatDialogRef, useValue: {close: (dialogResult: any) => { }}},

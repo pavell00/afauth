@@ -1,5 +1,5 @@
 export class trashItem {
-    orderDate?: string;
+    orderDate?: Date;
     name?: string;
     price?: number;
     qty?: number;

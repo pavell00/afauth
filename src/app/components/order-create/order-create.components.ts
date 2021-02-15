@@ -13,7 +13,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class OrderCreateComponent implements OnInit {
     newOrder: Order;
     user: User;
-    orderDate: string = new Date().toLocaleString('ru');
+    orderDate: Date;// = new Date().toLocaleString('ru');
     orderNo: string = '1';
     orderSum: number = 0;
     orderDiscount: number = 0;
@@ -48,13 +48,13 @@ export class OrderCreateComponent implements OnInit {
         ((d.getMonth()+1)<10?'0':'') + (d.getMonth()+1) +' '+ 
         (d.getHours()<10?'0':'') + d.getHours() + ':' +
         (d.getMinutes()<10?'0':'') + d.getMinutes() 
-      this.orderDate = date;
+      this.orderDate = d // date;
     }
 
     onSave() {
       //add new document
         let res = this.firestore.collection('orders').add({
-        OrderDate: this.orderDate, 
+        orderDate: this.orderDate, 
         tableNo: this.orderNo,
         sumOrder: this.orderSum,
         discountOrder: this.orderDiscount,

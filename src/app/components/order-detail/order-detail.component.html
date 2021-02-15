@@ -4,10 +4,11 @@
       <mat-panel-title>Детали заказа по столу № {{tableNo}}</mat-panel-title>
     </mat-expansion-panel-header>
     <mat-form-field style="text-align: center; width: 40px;">
-      <input matInput [(ngModel)]="tableNo"placeholder="Cтол" [disabled]="true">
+      <input matInput [(ngModel)]="tableNo" placeholder="Cтол" [disabled]="true">
     </mat-form-field>
     <mat-form-field style="text-align: center; width: 80px;">
-      <input matInput [(ngModel)]="orderDate" placeholder="Открыт стол" [disabled]="true">
+      <input matInput placeholder="Открыт стол" [disabled]="true" 
+      [ngModel]="orderDate | date:'MM/dd h:mm'" type="datetime">
     </mat-form-field> 
     <mat-form-field style="text-align: right; width: 60px;">
       <input matInput type="number" [(ngModel)]="orderSum" placeholder="Сумма счета">
@@ -174,7 +175,7 @@
 <div hidden='true' id="print-section">
   <p>Заказ на кухню, стол № {{tableNo}}</p>
   <p>официант {{waiter}}</p>
-  <p>время {{orderDate}}</p>
+  <p>время {{orderDate | date:'MM/dd h:mm'}}</p>
   <ul>
     <ng-container *ngFor="let item of selectedMenu">
       <li *ngIf="!item.status">{{item.name}} - {{item.qty}} шт.

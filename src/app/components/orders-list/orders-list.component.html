@@ -8,7 +8,9 @@
 
   <ng-container matColumnDef="OrderDate">
     <th mat-header-cell *matHeaderCellDef>Дата / Время</th>
-    <td mat-cell *matCellDef="let element" (click)="editOrder(element.id)"> {{element.OrderDate}} </td>
+    <td mat-cell *matCellDef="let element" (click)="editOrder(element.id)"> 
+      {{element.orderDate.toDate() | date:'MM/dd h:mm'}} 
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="sumOrder">

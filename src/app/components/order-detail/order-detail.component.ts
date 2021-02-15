@@ -39,7 +39,8 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
 
   currentOrder: Order;
   user: User;
-  orderDate: string = new Date().toLocaleString();
+  orderDate: Date;
+  orderDateStr: string;
   tableNo: string = '1';
   orderId: string;
   orderSum: number = 0.0;
@@ -101,9 +102,9 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
     // get order params
     if (this.orderId) {
       this.subscription.add(this.dataService.getOrder(this.orderId).subscribe(actionArray => {
-        this.currentOrder = actionArray.payload.data() as Order;
+        this.currentOrder = actionArray as Order;
         this.tableNo = this.currentOrder.tableNo;
-        this.orderDate = this.currentOrder.OrderDate.toString();
+        this.orderDate = this.currentOrder.orderDate;
         this.orderIsDone = this.currentOrder.isDone;
         this.orderSum = this.currentOrder.sumOrder;
         this.orderDiscount = this.currentOrder.discountOrder;

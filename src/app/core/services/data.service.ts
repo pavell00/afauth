@@ -7,6 +7,7 @@ import { filter, map } from 'rxjs/operators'
 import { menuItem } from '../models/menuItem';
 import { Order } from '../models/order';
 import { User } from '../models/user';
+import { convertTimestampsPipe } from '../../../../../afauth/node_modules/convert-firebase-timestamp';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,10 @@ export class DataService {
   }
   
   getOrder(id: string) {
-    return this.firestore.collection('orders').doc(id).snapshotChanges();
+    return this.firestore.collection('orders').doc(id).snapshotChanges().pipe(
+      map(doc => doc.payload.data()),
+      convertTimestampsPipe()
+    );
     //return this.firestore.collection('orders').doc(id);
   }
 
@@ -75,7 +79,7 @@ export class DataService {
         qty : 1,
         price : order.sumToPay
        }
-       this.moveToTrash(element, userName, order.tableNo, order.OrderDate.toString())
+       this.moveToTrash(element, userName, order.tableNo, order.orderDate)
        this.firestore.collection('orders').doc(order.id).delete(),
        this.openSnackBar('Удаление заказа...', 'завершено!')
       }
@@ -165,7 +169,7 @@ export class DataService {
   }
 
   async deleteLineInOrderDatail (item: menuItem, orderId: string, userName: string, 
-    tableNo: string, orderDate: string) {
+    tableNo: string, orderDate: Date) {
     var lineRef = this.firestore.collection('orders').doc(orderId).collection('lines').doc(item.id)
     try {
       await this.moveToTrash(item, userName, tableNo, orderDate);
@@ -214,7 +218,7 @@ export class DataService {
   }
 
   async moveToTrash(item: menuItem, userName: string, 
-    tableNo: string, orderDate: string) {
+    tableNo: string, orderDate: Date) {
       let res = this.firestore.collection('trash').add({
         orderDate: orderDate,
         tableNo: tableNo,

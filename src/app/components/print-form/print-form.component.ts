@@ -16,7 +16,7 @@ export class PrintFormComponent implements OnInit {
   currentOrder: Order;
   orderId: string;
   orderSumToPay: number;
-  orderDate: string;
+  orderDate: Date;
   orderNo: string;
   orderGuests: number;
   place: string;
@@ -32,6 +32,7 @@ export class PrintFormComponent implements OnInit {
   shortPrintTime: string = '';
   orderCheck: string = '';
   currentParams: Params;
+  printTime2: Date;
 
   constructor(private route: ActivatedRoute, private dataService: DataService) { }
 
@@ -40,8 +41,8 @@ export class PrintFormComponent implements OnInit {
       this.orderId = params['orderId'];
       this.dataService.getOrder(params['orderId']).subscribe(
         actionArray => {
-          this.currentOrder = actionArray.payload.data() as Order;
-          let dateArr = this.currentOrder.OrderDate.split(' ');
+          this.currentOrder = actionArray as Order;
+          let dateArr = this.currentOrder.orderDate.toDateString().split(' ');
           let firstPart = dateArr[0] + '.' + new Date().getFullYear().toString();
           let finalyValue = firstPart.replace('/','.');
           let secontValue = dateArr[1]
@@ -50,7 +51,7 @@ export class PrintFormComponent implements OnInit {
           let shortTime = strTime.slice(0, -3)
           //this.selectedMenu = JSON.parse(params['selectedMenu']);
           this.orderSumToPay = this.currentOrder.sumToPay;
-          this.orderDate = this.currentOrder.OrderDate.toString();
+          this.orderDate = this.currentOrder.orderDate;
           this.orderNo = this.currentOrder.check.toString();
           this.orderGuests = this.currentOrder.guests;
           this.place = this.currentOrder.place;
@@ -60,7 +61,8 @@ export class PrintFormComponent implements OnInit {
           //this.restaurant = res.restaurant;
            this.shortOrderDate = finalyValue;
           this.timeOpenTable = secontValue;
-          this.shortPrintTime = shortTime;
+          //this.shortPrintTime = shortTime;
+          this.printTime2 = new Date()
           this.orderCheck = this.currentOrder.check.toString(); 
         }
       )
