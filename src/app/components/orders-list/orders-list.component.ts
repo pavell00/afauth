@@ -1,7 +1,13 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ViewChild, AfterViewInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatExpansionPanel } from '@angular/material/expansion';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import {FormGroup, FormControl} from '@angular/forms';
+import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from './format-datepicker';
+
 import { Subscription } from 'rxjs';
 //import * as copy from 'copy-to-clipboard';
 //import copy from 'copy-to-clipboard';
@@ -20,9 +26,14 @@ export interface DialogData {
 @Component({
   selector: 'orders-list',
   templateUrl: './orders-list.component.html',
-  styleUrls: ['./orders-list.component.css']
+  styleUrls: ['./orders-list.component.css'],
+  viewProviders: [MatExpansionPanel],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
-export class OrderListComponent implements OnInit, OnDestroy {
+export class OrderListComponent implements OnInit, OnDestroy, AfterViewInit {
   orders: Order[] = [];
   user: User;
   isGetRight: boolean = false;
@@ -36,6 +47,9 @@ export class OrderListComponent implements OnInit, OnDestroy {
   newData: any;
   userName: string;
   private subscription: Subscription;
+  sortDirection: string = 'asc';
+  startDt: Date;
+  endDt: Date;
 
   constructor(private dataService: DataService, private router : Router,
     private authService: AuthService, public dialog: MatDialog) { }
@@ -46,7 +60,7 @@ export class OrderListComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.user$.subscribe(
       res => {
         this.user = res;
-        this.userName = res.userName;
+        this.userName = res.userName +" ("+ res.roleRUS + ")";
         this.isGetRight = this.authService.canRemoveMenuItem(this.user)
         this.subscription.add(
           this.dataService.getOrders(this.user).subscribe(actionArray => {
@@ -55,10 +69,63 @@ export class OrderListComponent implements OnInit, OnDestroy {
                 id: item.payload.doc.id,
                 ...item.payload.doc.data() as Order
               }
-            })
+            });
           })
         );
+/*         this.subscription.add(
+          this.dataService.getStartDate().subscribe(
+            res => this.start = res
+          )
+        );
+        this.subscription.add(
+          this.dataService.getEndDate().subscribe(
+            res => this.end = res
+          )
+        ); */
       });
+      this.startDt = this.dataService.startDate;
+      this.endDt = this.dataService.endDate;
+  }
+
+  ngAfterViewInit() { }
+
+  closeDatePicker(start: string, end: string) {
+    //console.log(this.startDt, this.endDt)
+    let startYear = +start.substr(6, 4);
+    let startMonth = +start.substr(3, 2)-1;
+    let startDay = +start.substr(0, 2);
+    let startDate = new Date(startYear, startMonth, startDay);
+
+    let endYear = +end.substr(6, 4);
+    let endMonth = +end.substr(3, 2)-1;
+    let endDay = +end.substr(0, 2);
+    let endDate = new Date(endYear, endMonth, endDay);
+
+    this.dataService.setStartDate(this.startDt);
+    this.dataService.setEndDate(this.endDt);
+
+    this.subscription.add(
+      this.dataService.getOrders(this.user).subscribe(actionArray => {
+        this.orders = actionArray.map(item => {
+          return {
+            id: item.payload.doc.id,
+            ...item.payload.doc.data() as Order
+          }
+        });
+      })
+    )
+  }
+
+  sort(e: any) {
+    //console.log(e.srcElement.innerText)
+    if (this.sortDirection == 'asc' && e.srcElement.innerText == 'Дата / Время') {
+      this.orders.sort((a, b) => (a.orderDate < b.orderDate ? -1 : 1));
+      this.sortDirection = 'dsc'
+    }
+    if (this.sortDirection == 'dsc' && e.srcElement.innerText == 'Дата / Время') {
+      this.orders.sort((a, b) => (a.orderDate > b.orderDate ? -1 : 1));
+      this.sortDirection = 'asc'
+    }
   }
 
   onCreateOrder() {

@@ -17,6 +17,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSortModule } from '@angular/material/sort';
+import { MatNativeDateModule } from '@angular/material/core';
 
   @NgModule({
     imports: [
@@ -25,7 +27,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
       MatFormFieldModule, MatTableModule, MatDialogModule,
       MatInputModule, MatSidenavModule, MatToolbarModule,
       MatSelectModule, MatCheckboxModule,
-      MatExpansionModule, MatMenuModule, MatDatepickerModule
+      MatExpansionModule, MatMenuModule, MatDatepickerModule,
+      MatSortModule, MatNativeDateModule
     ],
     exports: [
       MatSidenavModule,
@@ -43,7 +46,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
       MatSlideToggleModule,
       MatExpansionModule,
       MatMenuModule,
-      MatDatepickerModule
+      MatDatepickerModule,
+      MatSortModule,
+      MatNativeDateModule
     ],
     providers: [ 
       { provide: MatDialogRef, useValue: {close: (dialogResult: any) => { }}},

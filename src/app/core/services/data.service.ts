@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter, map } from 'rxjs/operators'
+import { filter, map, tap } from 'rxjs/operators'
 import { menuItem } from '../models/menuItem';
 import { Order } from '../models/order';
 import { User } from '../models/user';
@@ -17,23 +17,53 @@ export class DataService {
   public snavState: boolean = false;
   private statePrintButton = new BehaviorSubject<boolean>(false);
   isShowPRNButton = this.statePrintButton.asObservable();
+/*   startDate = new BehaviorSubject<Date>(new Date);
+  endDate = new BehaviorSubject<Date>(new Date); */
+  startDate: Date =  new Date();
+  endDate: Date = new Date();
   //public formData: menuItem;
-  constructor(private firestore: AngularFirestore, private _snackBar: MatSnackBar) { }
+  constructor(private firestore: AngularFirestore, private _snackBar: MatSnackBar) {
+    this.startDate.setHours(0);
+    this.startDate.setMinutes(0);
+    this.startDate.setSeconds(0);
+
+    this.endDate.setHours(23);
+    this.endDate.setMinutes(59);
+    this.endDate.setSeconds(59);
+  }
 
   changeStatePrnButton(res: boolean) {
     this.statePrintButton.next(res);
   }
 
+  setStartDate(d: Date) {this.startDate = d}
+  setEndDate(d: Date) {this.endDate = this.addDays(d, 1)}
+
   getMenuList() {
     return this.firestore.collection('menulist').snapshotChanges();
   }
 
+  addDays(date: Date, days: number): Date {
+    date.setDate(date.getDate() + days);
+    date.setSeconds(date.getSeconds() - 1);
+    return date;
+  }
+
   getOrders(user: User) {
     //return this.firestore.collection('orders').snapshotChanges();
-    if (user.role == 'director' || user.role == 'restaurantAdmin' ) {
-      return this.firestore.collection('orders').snapshotChanges();
+    //console.log(this.startDate, this.endDate)
+    if (user.role == 'director' || user.role == 'restaurantAdmin') {
+      //return this.firestore.collection('orders', ref => ref.orderBy('orderDate', 'desc')).snapshotChanges();
+      return this.firestore.collection('orders', ref => ref
+      .where('orderDate', '>=', this.startDate)
+      .where('orderDate', '<', this.endDate)
+      )
+      .snapshotChanges();
     } else {
-      return this.firestore.collection('orders', ref => ref.where('user', '==', user.uid))
+      return this.firestore.collection('orders', ref => 
+      //ref.where('user', '==', user.uid)//.orderBy('orderDate')//.where('isDone', '==', 'false')
+      ref.where('user', '==', user.uid).where('isDone', '==', false).orderBy('orderDate','desc')
+      )
       .snapshotChanges()
     }
 /*    return this.firestore.collection('orders', ref => ref.where('user', '==', user.uid))

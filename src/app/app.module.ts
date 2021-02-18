@@ -66,7 +66,7 @@ import { TrashComponent } from './components/trash/trash.component';
         guardProtectedRoutesUntilEmailIsVerified: false,
         enableEmailVerification: false, // default: true
       }),
-    FormsModule,
+    FormsModule, 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
