@@ -26,8 +26,8 @@ const routes: Routes = [
   { path: 'work', component: WorkComponent, canActivate: [CanWorkWithOrdersGuard], children: [
     { path: 'orders-list', component: OrderListComponent },
     { path: 'order-detail', component: OrderDetailComponent },
-    { path: 'menu-list', component: MenuListComponent },
-    { path: 'menuItem-create', component: MenuItemCreateComponent },
+    { path: 'menu-list', component: MenuListComponent, canActivate: [CanViewDeletedMenuItemGuard] },
+    { path: 'menuItem-create', component: MenuItemCreateComponent, canActivate: [CanViewDeletedMenuItemGuard] },
     { path: 'order-create', component: OrderCreateComponent },
     { path: 'print-form', component: PrintFormComponent },
   ] },

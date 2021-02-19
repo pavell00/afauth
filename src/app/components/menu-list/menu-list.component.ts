@@ -12,6 +12,7 @@ import { Subscription, Observable, Subject } from 'rxjs';
 })
 export class MenuListComponent implements OnInit, OnDestroy {
   menulist : menuItem[] = [];
+  filteredMenulist : menuItem[] = [];
   displayedColumns = ['name', 'price', 'qty', 'Del'];
   menuName: string;
   menuQty: number;
@@ -36,6 +37,11 @@ export class MenuListComponent implements OnInit, OnDestroy {
   createMenuItem() {
     //menuItem-create
     this.router.navigateByUrl('work/menuItem-create');
+  }
+
+  applyFilter(filterValue: string) {
+    //this.orderId.pipe(map(m => console.log(m)))
+    this.filteredMenulist = this.menulist.filter(v => v.name.toLowerCase().includes(filterValue.trim().toLowerCase()));
   }
 
   editMenuItem(item: menuItem) {
