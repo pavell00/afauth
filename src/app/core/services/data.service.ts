@@ -247,6 +247,24 @@ export class DataService {
     } 
   }
 
+  async unlockOrder(order: Order, userName: string) {
+    var lineRef = this.firestore.collection('orders').doc(order.id)
+    let element : menuItem = {
+      name : 'разблокировка',
+      qty : 1,
+      price : order.sumToPay
+     }
+    try {
+      await this.moveToTrash(element, userName, order.tableNo, order.orderDate);
+      await lineRef.set({
+        isDone: false,
+      }, {merge: true})
+      this.openSnackBar('Обновление элемента', 'завершено...');
+    } catch (error) {
+      console.error("Error opening Order status: ", error);
+    } 
+  }
+
   async moveToTrash(item: menuItem, userName: string, 
     tableNo: string, orderDate: Date) {
       let res = this.firestore.collection('trash').add({
@@ -267,5 +285,15 @@ export class DataService {
 
   getTrash() {
     return this.firestore.collection('trash').snapshotChanges();
+  }
+
+  async deleteItemFromTrash (id: string) {
+    var lineRef = this.firestore.collection('trash').doc(id)
+    try {
+      await lineRef.delete();
+      this.openSnackBar('Удаление элемента', 'завершено...');
+    } catch (error) {
+      console.error("Error deleting line trash : ", error);
+    }
   }
 }

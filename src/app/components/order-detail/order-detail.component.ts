@@ -32,7 +32,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
   menulist : menuItem[] = [];
   filteredMenulist : menuItem[] = [];
   selectedMenu : menuItem[] = [];
-  displayedColumns = ['add','name', 'price', 'qty', 'discount'];
+  displayedColumns = ['add','name', 'price'];
   displayedCols = ['name', 'price', 'qty', 'sum', 'Actions','Description'];
   subscription: Subscription;
   isGetRight: boolean = false;

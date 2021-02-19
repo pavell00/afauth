@@ -1,5 +1,5 @@
 <div>
-  <mat-expansion-panel [disabled]="isGetRight? null : true">
+  <mat-expansion-panel [disabled]="isGetRight? null : true" #mep>
     <mat-expansion-panel-header>
       <mat-panel-title style="display: flex; justify-content: center;">{{userName}}</mat-panel-title>
     </mat-expansion-panel-header>
@@ -11,7 +11,7 @@
           <input matEndDate #end [(ngModel)]="endDt" placeholder="End date">
         </mat-date-range-input>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker (closed)="closeDatePicker(start.value, end.value)"></mat-date-range-picker>
+      <mat-date-range-picker #picker (closed)="closeDatePicker(start.value, end.value);mep.expanded = false"></mat-date-range-picker>
 
     </mat-form-field>
    </mat-expansion-panel>
@@ -60,6 +60,10 @@
         <button mat-menu-item (click)="deleteOrder(element)" *ngIf="isGetRight"> 
           <mat-icon>delete_outline</mat-icon>
           <span>Удалить</span>
+        </button>
+        <button mat-menu-item (click)="unlockOrder(element)" *ngIf="isGetRight"> 
+          <mat-icon>lock_open</mat-icon>
+          <span>Открыть</span>
         </button>
       </mat-menu>
 <!--  <button mat-mini-fab color="warn" (click)="deleteOrder(element.id)">

@@ -16,7 +16,7 @@ export class TrashComponent implements OnInit, OnDestroy {
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
-    this.displayedColumns = ['OrderDate','tableNo','Name','Sum','User','ActDate'];
+    this.displayedColumns = ['OrderDate','tableNo','Name','Sum','User','ActDate','Act'];
     this.subscription = this.dataService.getTrash().subscribe(actionArray => {
         this.trash = actionArray.map(item => {
           return {
@@ -25,6 +25,12 @@ export class TrashComponent implements OnInit, OnDestroy {
           }
         })
       });
+  }
+
+  onDelete(id: string) {
+    if (confirm("Вы уверенны что хотите удалить заказ?")) {
+      this.dataService.deleteItemFromTrash(id);
+    }
   }
 
   ngOnDestroy(){
