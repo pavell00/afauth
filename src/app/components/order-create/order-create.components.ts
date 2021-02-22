@@ -14,7 +14,7 @@ export class OrderCreateComponent implements OnInit {
     newOrder: Order;
     user: User;
     orderDate: Date;// = new Date().toLocaleString('ru');
-    orderNo: string = '1';
+    orderNo: number = 1;
     orderSum: number = 0;
     orderDiscount: number = 0;
     sumDiscount: number = 0;
@@ -55,7 +55,7 @@ export class OrderCreateComponent implements OnInit {
       //add new document
         let res = this.firestore.collection('orders').add({
         orderDate: this.orderDate, 
-        tableNo: this.orderNo,
+        tableNo: this.orderNo.toString(),
         sumOrder: this.orderSum,
         discountOrder: this.orderDiscount,
         sumDiscount: this.sumDiscount,

@@ -8,7 +8,7 @@
     </mat-form-field>
     <mat-form-field style="text-align: center; width: 80px;">
       <input matInput placeholder="Открыт стол" [disabled]="true" 
-      [ngModel]="orderDate | date:'MM/dd h:mm'" type="datetime">
+      [ngModel]="orderDate | date:'dd/MM h:mm a'" type="datetime">
     </mat-form-field> 
     <mat-form-field style="text-align: right; width: 60px;">
       <input matInput type="number" [(ngModel)]="orderSum" placeholder="Сумма счета">

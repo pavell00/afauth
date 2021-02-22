@@ -1,17 +1,33 @@
+<div>
+    <mat-form-field>
+        <input matInput matInput type="number" [(ngModel)]="orderNo" placeholder="Номер стола">
+    </mat-form-field>
+<!--     <button mat-mini-fab color="accent" (click)="orderNo=orderNo+1">
+        <i class="material-icons">exposure_plus_1</i>
+    </button>
+    <button mat-mini-fab color="accent" (click)="orderNo=orderNo-1" *ngIf="orderNo>1">
+        <i class="material-icons">exposure_neg_1</i>
+    </button> -->
+</div>
+<div>
+    <mat-form-field>
+        <input matInput type="number" [(ngModel)]="orderGuests" 
+        placeholder="Гостей" min="1" step="1">
+    </mat-form-field>
+<!--     <button mat-mini-fab color="accent" (click)="orderGuests=orderGuests+1">
+        <i class="material-icons">exposure_plus_1</i>
+    </button>
+    <button mat-mini-fab color="accent" (click)="orderGuests=orderGuests-1" *ngIf="orderGuests>1">
+        <i class="material-icons">exposure_neg_1</i>
+    </button> -->
+</div>
 <mat-form-field>
-    <input matInput [(ngModel)]="orderNo" placeholder="Номер стола">
-</mat-form-field>
-<mat-form-field>
-    <input matInput [(ngModel)]="orderDate" placeholder="Дата / время стола" 
+    <input matInput [ngModel]="orderDate | date:'dd/MM/yy h:mm a'" placeholder="Дата / время стола" 
     [disabled]="true">
 </mat-form-field>
 <!-- <mat-form-field style="text-align: right;">
     <input matInput type="number" [(ngModel)]="orderDiscount" placeholder="Дисконт">
 </mat-form-field> -->
-<mat-form-field style="text-align: right;">
-    <input matInput type="number" [(ngModel)]="orderGuests" 
-    placeholder="Гостей" min="1" step="1">
-</mat-form-field>
 <!-- <mat-form-field style="text-align: right;">
     <input matInput type="number" [(ngModel)]="orderSumService" placeholder="Сумма за обслуживание">
 </mat-form-field>
