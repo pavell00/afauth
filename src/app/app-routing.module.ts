@@ -6,6 +6,7 @@ import { AdminGuard } from './core/guards/admin.guard';
 import { CanReadGuard } from './core/guards/can-read.guard';
 import { CanWorkWithOrdersGuard } from './core/guards/canWorkWithOrders.quards';
 import { CanViewDeletedMenuItemGuard } from './core/guards/canViewDeletedMenuItem.guards';
+import { CanRemoveMenuItemGuard } from './core/guards/canRemoveMenuItem.guards';
 
 import { WorkComponent } from './components/work/work.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -18,6 +19,7 @@ import { OrderDetailComponent } from './components/order-detail/order-detail.com
 import { OrderListComponent } from './components/orders-list/orders-list.component';
 import { PrintFormComponent } from './components/print-form/print-form.component';
 import { TrashComponent } from './components/trash/trash.component';
+import { CanChangeMenuGuard } from './core/guards/canChangeMenu.guards';
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent},
@@ -26,8 +28,8 @@ const routes: Routes = [
   { path: 'work', component: WorkComponent, canActivate: [CanWorkWithOrdersGuard], children: [
     { path: 'orders-list', component: OrderListComponent },
     { path: 'order-detail', component: OrderDetailComponent },
-    { path: 'menu-list', component: MenuListComponent, canActivate: [CanViewDeletedMenuItemGuard] },
-    { path: 'menuItem-create', component: MenuItemCreateComponent, canActivate: [CanViewDeletedMenuItemGuard] },
+    { path: 'menu-list', component: MenuListComponent, canActivate: [CanChangeMenuGuard] },
+    { path: 'menuItem-create', component: MenuItemCreateComponent, canActivate: [CanChangeMenuGuard] },
     { path: 'order-create', component: OrderCreateComponent },
     { path: 'print-form', component: PrintFormComponent },
   ] },

@@ -3,19 +3,15 @@ import { Router, NavigationExtras } from '@angular/router';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {FormGroup, FormControl} from '@angular/forms';
-import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from './format-datepicker';
 
 import { Subscription } from 'rxjs';
-//import * as copy from 'copy-to-clipboard';
-//import copy from 'copy-to-clipboard';
 import { Order } from '../../core/models/order';
 import { menuItem } from '../../core/models/menuItem';
 import { DataService } from '../../core/services/data.service';
 import { AuthService } from '../../core/services/auth.service';
-import { User } from 'src/app/core/models/user';
+import { User } from '../../core/models/user';
 
 export interface DialogData {
   id: string;

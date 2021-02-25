@@ -4,10 +4,11 @@ import { AuthService } from './services/auth.service';
 import { AdminGuard } from './guards/admin.guard';
 import { CanReadGuard } from './guards/can-read.guard';
 import { DataService } from './services/data.service';
+
 import { CanWorkWithOrdersGuard } from './guards/canWorkWithOrders.quards';
 import { CanViewDeletedMenuItemGuard } from './guards/canViewDeletedMenuItem.guards';
 import { CanRemoveMenuItemGuard } from './guards/canRemoveMenuItem.guards';
-import { CanChangeMenuGuard } from './guards/canChangeMenuIguards';
+import { CanChangeMenuGuard } from './guards/canChangeMenu.guards';
 
 @NgModule({
   imports: [

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../core/services/data.service';
+import { Router, NavigationExtras } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
+
+import { DataService } from '../../core/services/data.service';
+import { AuthService } from '../../core/services/auth.service';
 import { Order } from '../../core/models/order';
 import { User } from '../../core/models/user';
-import { AuthService } from '../../core/services/auth.service';
 
 @Component({
     selector: 'order-create',
@@ -24,18 +26,17 @@ export class OrderCreateComponent implements OnInit {
     orderCheck: number = Math.floor(Math.random() * (999999 - 100000)) + 100000;
     orderSumService: number = 0;
     place: string = 'Зал';
-    waiter: string = 'Кукайло Татьяна';
-    printed: string= 'Кукайло Татьяна';
+    waiter: string = '';
+    printed: string= '';
 
     constructor(private dataService: DataService, private auth: AuthService,
-    private firestore: AngularFirestore) { }
+    private firestore: AngularFirestore, private router : Router) { }
 
     ngOnInit(): void {
       this.auth.user$.subscribe(
         res => {this.user= res;
         this.waiter = this.printed = res.userName;
-      }
-      );
+      });
       let d = new Date();
       let day = d.getDate();
       /*let dd: string = (d.getDay() + 1).toString();
@@ -48,7 +49,7 @@ export class OrderCreateComponent implements OnInit {
         ((d.getMonth()+1)<10?'0':'') + (d.getMonth()+1) +' '+ 
         (d.getHours()<10?'0':'') + d.getHours() + ':' +
         (d.getMinutes()<10?'0':'') + d.getMinutes() 
-      this.orderDate = d // date;
+      this.orderDate = d; // date;
     }
 
     onSave() {
@@ -72,10 +73,9 @@ export class OrderCreateComponent implements OnInit {
       }).then(
         (w) => {
           //this.orderId = w.id;
-          //this.storeOrderItems(w.id);
-          //console.log(w.id)
-          //this.toastr.success('Заказ создан', 'EMP. Register');
           this.dataService.openSnackBar('Сохраниение зказа...', 'завершено!');
+          let navigationExtras: NavigationExtras = { queryParams: {'orderid': w.id} };
+          this.router.navigate(['work/order-detail'], navigationExtras);
           }
       )
     }
