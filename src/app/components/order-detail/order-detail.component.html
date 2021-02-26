@@ -100,6 +100,14 @@
               <mat-icon>delete_outline</mat-icon>
               <span>Удалить</span>
             </button>
+            <button mat-menu-item (click)="openDialog(element)" *ngIf="isGetRight || !element.status"> 
+              <mat-icon>edit</mat-icon>
+              <span>Изменить</span>
+            </button>
+            <button mat-menu-item (click)="printChanges()" *ngIf="isGetRight && (element.old_qty || element.old_price)"> 
+              <mat-icon>print</mat-icon>
+              <span>Изменений</span>
+            </button>
           </mat-menu>
         </td>
       </ng-container>
@@ -176,11 +184,25 @@
 <div hidden='true' id="print-section">
   <p>Заказ на кухню, стол № {{tableNo}}</p>
   <p>официант {{waiter}}</p>
-  <p>время {{orderDate | date:'MM/dd h:mm'}}</p>
+  <p>время {{orderDate | date:'dd/MM hh:mm a'}}</p>
   <ul>
     <ng-container *ngFor="let item of selectedMenu">
       <li *ngIf="!item.status">{{item.name}} - {{item.qty}} шт.
         <br *ngIf="item.description">{{item.description}}
+      </li>
+    </ng-container>
+  </ul>
+</div>
+
+<div hidden='true' id="print-section-changes">
+  <p>Корретировка позиции, стол № {{tableNo}}</p>
+  <p>официант {{waiter}}</p>
+  <p>время {{orderDate | date:'dd/MM hh:mm a'}}</p>
+  <ul>
+    <ng-container *ngFor="let item of selectedMenu">
+      <li *ngIf="item.old_qty || item.old_price">{{item.name}} 
+        <br>- было {{item.old_qty}} по {{item.old_price}}
+        <br>- стало {{item.qty}} по {{item.price}}
       </li>
     </ng-container>
   </ul>

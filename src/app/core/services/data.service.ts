@@ -143,14 +143,24 @@ export class DataService {
       {duration: 300, verticalPosition: 'top'})
   }
 
-  async updateLineInOrderDatail (item: menuItem, orderId: string) {
+  async updateLineInOrderDatail (item: menuItem, orderId: string, 
+    old_qty: number, old_price: number, userName: string, 
+    tableNo: string, orderDate: Date) {
     var lineRef = this.firestore.collection('orders').doc(orderId).collection('lines').doc(item.id)
+    let element: menuItem = {
+      name: 'коррек. '+item.name,
+      price: old_price,
+      qty: old_qty
+    }
     try {
+      await this.moveToTrash(element, userName, tableNo, orderDate);
       await lineRef.update({
         price: item.price,
         qty: item.qty,
         name: item.name,
-        discount: item.discount
+        discount: item.discount,
+        old_qty,
+        old_price
       })
       this.openSnackBar('Обновление элемента', 'завершено...');
     } catch (error) {
@@ -284,7 +294,7 @@ export class DataService {
     }
 
   getTrash() {
-    return this.firestore.collection('trash').snapshotChanges();
+    return this.firestore.collection('trash', ref => ref.orderBy('actDate', 'desc')).snapshotChanges();
   }
 
   async deleteItemFromTrash (id: string) {

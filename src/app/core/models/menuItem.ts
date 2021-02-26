@@ -6,4 +6,6 @@ export class menuItem {
     discount?: number;
     description?: string;
     status?: string;
+    old_qty?: number;
+    old_price?: number;
   }

@@ -159,7 +159,37 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
         this.dataService.setStatusInOrderDatailToInWork(item, this.orderId)
       }
     });
-    
+  }
+
+  printChanges(): void {
+    let cntForPrint: number = 0;
+    this.selectedMenu.forEach(item => {
+      if (item.old_qty || item.old_price) {
+        cntForPrint++;
+      }
+    })
+    //check for non printed elemets in order (next part to print)
+    if (!cntForPrint) {
+      this.dataService.openSnackBar("Нет корректировок!","Нечего печатать")
+      return
+    }
+
+    let printContents: string, popupWin: any;
+    printContents = document.getElementById('print-section-changes').innerHTML;
+    popupWin = window.open('', '_blank', 'top=0,left=0,height=100%,width=auto');
+    popupWin.document.open();
+    popupWin.document.write(`
+      <html>
+        <head>
+          <title>Print tab</title>
+          <style>
+          //........Customized style.......
+          </style>
+        </head>
+    <body onload="window.print();window.close()">${printContents}</body>
+      </html>`
+    );
+    popupWin.document.close();
   }
 
   printForm(e: any) {}
@@ -369,12 +399,16 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
 
     dialogRef.afterClosed().subscribe(result => {
       //console.log('The dialog was closed');
+      let old_qty: number = 0;
+      let old_price: number = 0;
       if (result) {
         this.newData = result;
         //console.log(this.newData);
         //refresh data in array
         for(let i = 0; i < this.selectedMenu.length; i++) {
           if(this.selectedMenu[i].id == this.newData.id) {
+            old_qty = this.selectedMenu[i].qty;
+            old_price = this.selectedMenu[i].price;
             this.selectedMenu[i].price = this.newData.price;
             this.selectedMenu[i].qty = this.newData.qty;
             this.selectedMenu[i].discount = this.newData.discount;
@@ -382,7 +416,8 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
         }
         //update data in DB subCollection
         //console.log(this.orderId)
-        this.dataService.updateLineInOrderDatail(this.newData, this.orderId)
+        this.dataService.updateLineInOrderDatail(this.newData, this.orderId, 
+          old_qty, old_price, this.user.userName, this.tableNo, this.orderDate)
       }
     });
   }
@@ -434,7 +469,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
 }
 
 @Component({
-  selector: 'dialog-overview-example-dialog',
+  selector: 'dialog-edit-order',
   templateUrl: './edit-dialog.html',
   styleUrls: ['./edit-dialog.css']
 })
