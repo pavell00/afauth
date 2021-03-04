@@ -92,7 +92,7 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="openDialogNote(element)"  *ngIf="isGetRight || !element.status">
+            <button mat-menu-item (click)="openDialogNote(element)" *ngIf="isGetRight || !element.status">
               <mat-icon>note_add</mat-icon>
               <span>Примечание</span>
             </button>
@@ -100,7 +100,7 @@
               <mat-icon>delete_outline</mat-icon>
               <span>Удалить</span>
             </button>
-            <button mat-menu-item (click)="openDialog(element)" *ngIf="isGetRight || !element.status"> 
+            <button mat-menu-item (click)="openDialog(element)" *ngIf="isGetRight"> 
               <mat-icon>edit</mat-icon>
               <span>Изменить</span>
             </button>

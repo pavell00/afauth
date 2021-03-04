@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../models/user';
 
@@ -24,6 +24,17 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
+          let userRef = this.afs.collection('users').doc(user.uid);
+          userRef.get().toPromise().then(
+            doc => {
+              let res = doc.data();
+              // if user has first login 
+              if (!res.hasOwnProperty('role')) {
+                this.setupUserData(user)
+              }
+            }
+          )
+                    
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
         } else {
           return of(null)
@@ -44,7 +55,7 @@ export class AuthService {
     this.isLoggedIn = true;
     return this.afAuth.signInWithPopup(provider)
       .then((credential) => {
-        //this.updateUserData(credential.user)
+        //this.setupUserData(credential.user)
         localStorage.setItem('user', JSON.stringify(credential.user));
       }).catch(
         (error) => window.alert(error)
@@ -55,7 +66,7 @@ export class AuthService {
     this.isLoggedIn = false;
     this.afAuth.signOut().then(
       () => {
-        this.router.navigate(['welcome']);
+        this.router.navigate(['sign-in-up']);
         localStorage.removeItem('user');
       }
     ).catch(
@@ -63,19 +74,18 @@ export class AuthService {
     )
    }
 
-  private updateUserData(user) {
+  private setupUserData(user: any) {
     // Sets user data to firestore on login
-/*     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const data: User = {
       uid: user.uid,
       email: user.email,
-      roles: {
-        subscriber: true,
-        editor: true
-      }
+      role: 'waitor',
+      roleRUS: 'Официант',
+      userName: user.displayName
     }
     localStorage.setItem('user', JSON.stringify(user));
-    return userRef.set(data, { merge: true }) */
+    return userRef.set(data, { merge: true })
   }
 
   canWorkWithOrders(user: User): boolean {

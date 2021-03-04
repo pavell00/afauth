@@ -20,8 +20,10 @@ import { OrderListComponent } from './components/orders-list/orders-list.compone
 import { PrintFormComponent } from './components/print-form/print-form.component';
 import { TrashComponent } from './components/trash/trash.component';
 import { CanChangeMenuGuard } from './core/guards/canChangeMenu.guards';
+import { SignInUpComponent } from './components/sign-in-up/sign-in-up.component';
 
 const routes: Routes = [
+  { path: 'sign-in-up', component: SignInUpComponent},
   { path: 'welcome', component: WelcomeComponent},
   { path: 'work', component: WorkComponent, canActivate: [CanWorkWithOrdersGuard]},
   //{ path: 'work/orders-list', component: WorkComponent, canActivate: [CanReadGuard]},
@@ -37,7 +39,7 @@ const routes: Routes = [
   { path: 'admin-page', component: AdminPageComponent, canActivate: [CanViewDeletedMenuItemGuard] },
   { path: 'trash', component: TrashComponent, canActivate: [CanViewDeletedMenuItemGuard] },
   { path: 'user-profile', component: UserProfileComponent },
-  { path: '',  redirectTo: '/welcome',  pathMatch: 'full' }
+  { path: '',  redirectTo: '/sign-in-up',  pathMatch: 'full' }
 ];
 
 @NgModule({

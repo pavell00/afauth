@@ -356,6 +356,7 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
     //т.к. два mat-table не хотят сами авто-рефрешится 
     //когда живут на одной странице
     //console.log(id, this.selectedMenu)
+    let logToTrash: boolean = true;
     if (confirm("Вы уверенны что хотите удалить блюдо?")) {
       for(let i = 0; i < this.selectedMenu.length; i++) {
         if(this.selectedMenu[i].id == item.id) {
@@ -366,9 +367,13 @@ export class OrderDetailComponent implements OnInit, AfterContentInit, OnDestroy
       this.selectedMenu = cloned;
       //recalc doc sum
       this.caclSumOrder()
-      //delete row of menuItem from DB
+      //create log record to trash, only when deleting item in work status
+      if (!item.status) {
+        logToTrash = false;
+      }
+            //delete row of menuItem from DB
       this.dataService.deleteLineInOrderDatail(item, this.orderId, this.user.userName,
-         this.tableNo, this.orderDate);
+         this.tableNo, this.orderDate, logToTrash);
       this.dataService.updateRecalculatedOrderSums (this.orderId, this.orderSum, 
         this.orderSumToPay);
     }

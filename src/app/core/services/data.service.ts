@@ -209,10 +209,12 @@ export class DataService {
   }
 
   async deleteLineInOrderDatail (item: menuItem, orderId: string, userName: string, 
-    tableNo: string, orderDate: Date) {
+    tableNo: string, orderDate: Date, logToTrash: boolean) {
     var lineRef = this.firestore.collection('orders').doc(orderId).collection('lines').doc(item.id)
     try {
-      await this.moveToTrash(item, userName, tableNo, orderDate);
+      if (logToTrash) {
+        await this.moveToTrash(item, userName, tableNo, orderDate);
+      }
       await lineRef.delete();
       this.openSnackBar('Удаление элемента', 'завершено...');
     } catch (error) {

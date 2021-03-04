@@ -26,6 +26,7 @@ import { OrderListComponent, DialogEditNoteOrder } from './components/orders-lis
 import { PrintFormComponent } from './components/print-form/print-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { TrashComponent } from './components/trash/trash.component';
+import { SignInUpComponent } from './components/sign-in-up/sign-in-up.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { TrashComponent } from './components/trash/trash.component';
     AdminPageComponent, MenuListComponent, MenuItemCreateComponent,
     OrderCreateComponent, OrderDetailComponent, OrderListComponent,
     PrintFormComponent,
-    TrashComponent
+    TrashComponent,
+    SignInUpComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,7 @@ import { TrashComponent } from './components/trash/trash.component';
         enableFirestoreSync: true, // enable/disable autosync users with firestore
         toastMessageOnAuthSuccess: false, // whether to open/show a snackbar message on auth success - default : true
         toastMessageOnAuthError: false, // whether to open/show a snackbar message on auth error - default : true
-        authGuardFallbackURL: '/welcome', // url for unauthenticated users - to use in combination with canActivate feature on a route
+        authGuardFallbackURL: '/sign-in-up', // url for unauthenticated users - to use in combination with canActivate feature on a route
         authGuardLoggedInURL: '/work', // url for authenticated users - to use in combination with canActivate feature on a route
         passwordMaxLength: 60, // `min/max` input parameters in components should be within this range.
         passwordMinLength: 4, // Password length min/max in forms independently of each componenet min/max.
@@ -65,6 +67,8 @@ import { TrashComponent } from './components/trash/trash.component';
         // Plus protected routes are still protected even though user is connected.
         guardProtectedRoutesUntilEmailIsVerified: false,
         enableEmailVerification: false, // default: true
+        useRawUserCredential: true, // If set to true outputs the UserCredential object instead of firebase.
+                                    // User after login and signup - Default: false
       }),
     FormsModule, 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

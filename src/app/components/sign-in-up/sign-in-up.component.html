@@ -1,0 +1,8 @@
+<ngx-auth-firebaseui
+    goBackURL="user-profile"
+    [guestEnabled]="false"
+    [resetPasswordEnabled]="false"
+    [providers]="['google']"
+    (onSuccess)="printUser($event)" 
+    (onError)="printError($event)">
+</ngx-auth-firebaseui>
