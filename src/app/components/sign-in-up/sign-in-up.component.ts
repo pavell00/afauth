@@ -13,10 +13,10 @@ export class SignInUpComponent implements OnInit {
   }
 
   printUser(event) {
-    console.log(event);
+    //console.log(event);
   }
   
   printError(event) {
-      console.error(event);
+      //console.error(event);
   }
 }

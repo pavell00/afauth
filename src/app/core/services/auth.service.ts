@@ -89,7 +89,7 @@ export class AuthService {
   }
 
   canWorkWithOrders(user: User): boolean {
-    const allowed = ['restaurantAdmin', 'director', 'waitor']
+    const allowed = ['restaurantAdmin', 'director', 'waitor', 'barman']
     return this.checkAuthorization(user, allowed)
   }
 
