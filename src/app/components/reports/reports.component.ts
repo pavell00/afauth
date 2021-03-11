@@ -25,6 +25,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.startDt = this.dataService.startDate;
     this.endDt = this.dataService.endDate;
+    this.closeDatePicker();
   }
 
   closeDatePicker() {
