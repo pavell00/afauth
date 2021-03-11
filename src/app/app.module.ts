@@ -27,6 +27,7 @@ import { PrintFormComponent } from './components/print-form/print-form.component
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { TrashComponent } from './components/trash/trash.component';
 import { SignInUpComponent } from './components/sign-in-up/sign-in-up.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SignInUpComponent } from './components/sign-in-up/sign-in-up.component'
     OrderCreateComponent, OrderDetailComponent, OrderListComponent,
     PrintFormComponent,
     TrashComponent,
-    SignInUpComponent
+    SignInUpComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,

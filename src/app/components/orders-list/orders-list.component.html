@@ -65,6 +65,10 @@
           <mat-icon>lock_open</mat-icon>
           <span>Открыть</span>
         </button>
+        <button mat-menu-item (click)="test(element)" *ngIf="isGetRight"> 
+          <mat-icon>build</mat-icon>
+          <span>Test</span>
+        </button>
       </mat-menu>
 <!--  <button mat-mini-fab color="warn" (click)="deleteOrder(element.id)">
         <i class="material-icons">delete</i>

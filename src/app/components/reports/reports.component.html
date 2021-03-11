@@ -1,0 +1,23 @@
+<mat-form-field appearance="fill">
+
+    <mat-label>Период вывода</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate [(ngModel)]="startDt" placeholder="Start date">
+        <input matEndDate [(ngModel)]="endDt" placeholder="End date">
+      </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker (closed)="closeDatePicker()"></mat-date-range-picker>
+
+</mat-form-field>
+<mat-tab-group>
+    <mat-tab label="Общие">
+        <p>Общая сумма : {{ total_sum }}</p>
+        <p>Общее количество : {{ amount_orders }}</p>
+        <p>Сумма закрытых заказов : {{ sum_orders_done }}</p>
+        <p>Количество закрытых заказов : {{ amount_orders_done }}</p>
+        <p>Сумма не закрытых заказов : {{ sum_orders_inwork }}</p>
+        <p>Количество не закрытых заказов : {{ amount_orders_inwork }}</p>
+    </mat-tab>
+    <mat-tab label="По блюдам">Socond</mat-tab>
+    <mat-tab label="По официантам">Three</mat-tab>
+</mat-tab-group>

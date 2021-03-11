@@ -21,6 +21,7 @@ import { PrintFormComponent } from './components/print-form/print-form.component
 import { TrashComponent } from './components/trash/trash.component';
 import { CanChangeMenuGuard } from './core/guards/canChangeMenu.guards';
 import { SignInUpComponent } from './components/sign-in-up/sign-in-up.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
   { path: 'sign-in-up', component: SignInUpComponent},
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'admin-page', component: AdminPageComponent, canActivate: [CanViewDeletedMenuItemGuard] },
   { path: 'trash', component: TrashComponent, canActivate: [CanViewDeletedMenuItemGuard] },
   { path: 'user-profile', component: UserProfileComponent },
+  { path: 'repors', component: ReportsComponent, canActivate: [CanViewDeletedMenuItemGuard] },
   { path: '',  redirectTo: '/sign-in-up',  pathMatch: 'full' }
 ];
 

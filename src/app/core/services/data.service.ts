@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter, map, tap } from 'rxjs/operators'
+import { filter, map, tap, switchMap, combineLatest, combineAll } from 'rxjs/operators'
 import { menuItem } from '../models/menuItem';
 import { Order } from '../models/order';
 import { User } from '../models/user';
@@ -307,5 +307,31 @@ export class DataService {
     } catch (error) {
       console.error("Error deleting line trash : ", error);
     }
+  }
+
+  reports(startDate: Date, endDate: Date) {
+    //return this.firestore.collection('orders').snapshotChanges();
+    //console.log(this.startDate, this.endDate)
+      //return this.firestore.collection('orders', ref => ref.orderBy('orderDate', 'desc')).snapshotChanges();
+      return this.firestore.collection('orders', ref => ref
+      .where('orderDate', '>=', startDate)
+      .where('orderDate', '<', this.addDays(endDate, 1))
+      )
+      .snapshotChanges();
+  }
+
+  test(order: Order) {
+    return this.firestore.collection('orders').doc(order.id).get()
+    .pipe(
+      switchMap((order: Order) => { 
+        const res = this.firestore
+            .collection(`orders/${order.id}/lines`).get()
+            .pipe(
+              map(name => Object.assign(order, {name}))
+            ); 
+    
+        return combineLatest(res);
+      })
+     ).subscribe(restaurants => console.log(restaurants));
   }
 }

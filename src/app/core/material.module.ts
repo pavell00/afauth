@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSortModule } from '@angular/material/sort';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatTabsModule} from '@angular/material/tabs';
 
   @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { MatNativeDateModule } from '@angular/material/core';
       MatInputModule, MatSidenavModule, MatToolbarModule,
       MatSelectModule, MatCheckboxModule,
       MatExpansionModule, MatMenuModule, MatDatepickerModule,
-      MatSortModule, MatNativeDateModule
+      MatSortModule, MatNativeDateModule, MatTabsModule
+      
     ],
     exports: [
       MatSidenavModule,
@@ -48,7 +50,8 @@ import { MatNativeDateModule } from '@angular/material/core';
       MatMenuModule,
       MatDatepickerModule,
       MatSortModule,
-      MatNativeDateModule
+      MatNativeDateModule,
+      MatTabsModule
     ],
     providers: [ 
       { provide: MatDialogRef, useValue: {close: (dialogResult: any) => { }}},

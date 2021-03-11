@@ -228,6 +228,10 @@ export class OrderListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataService.unlockOrder(order, this.user.userName);
   }
 
+  test(order: Order) {
+    this.dataService.test(order);
+  }
+
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
