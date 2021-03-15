@@ -1,17 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute }     from '@angular/router';
 import { Order } from 'src/app/core/models/order';
 //import { timeStamp } from 'console';
 import { menuItem } from '../../core/models/menuItem';
 import { Params } from '../../core/models/params2';
 import { DataService } from '../../core/services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'print-form',
   templateUrl: './print-form.component.html',
   styleUrls: ['./print-form.component.css']
 })
-export class PrintFormComponent implements OnInit {
+export class PrintFormComponent implements OnInit, OnDestroy {
   selectedMenu: menuItem[] = [];
   currentOrder: Order;
   orderId: string;
@@ -33,13 +34,14 @@ export class PrintFormComponent implements OnInit {
   orderCheck: string = '';
   currentParams: Params;
   printTime2: Date;
+  private subscription: Subscription;
 
   constructor(private route: ActivatedRoute, private dataService: DataService) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.subscription = this.route.queryParams.subscribe(params => {
       this.orderId = params['orderId'];
-      this.dataService.getOrder(params['orderId']).subscribe(
+      this.subscription.add(this.dataService.getOrder(params['orderId']).subscribe(
         actionArray => {
           this.currentOrder = actionArray as Order;
           let dateArr = this.currentOrder.orderDate.toDateString().split(' ');
@@ -64,7 +66,7 @@ export class PrintFormComponent implements OnInit {
           //this.shortPrintTime = shortTime;
           this.printTime2 = new Date()
           this.orderCheck = this.currentOrder.check.toString(); 
-        }
+        })
       )
     });
     this.dataService.getParams().get().toPromise().then(
@@ -76,14 +78,15 @@ export class PrintFormComponent implements OnInit {
     });
     //get list items of order
     if (this.orderId) {
-      this.dataService.getSubCollection(this.orderId).subscribe(actionArray => {
+      this.subscription.add(this.dataService.getSubCollection(this.orderId).subscribe(actionArray => {
         this.selectedMenu = actionArray.map(item => {
           return {
             id: item.payload.doc.id,
             ...item.payload.doc.data()
           } as menuItem;
         });
-      });
+      })
+      )
     }
   }
 
@@ -101,6 +104,10 @@ export class PrintFormComponent implements OnInit {
     document.body.innerHTML = printcontent;
     window.print();
     document.body.innerHTML = restorepage; */
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
 }

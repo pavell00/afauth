@@ -4,7 +4,7 @@ import { menuItem } from '../../core/models/menuItem';
 import { NgForm } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
-import { Subscription, Observable, Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'menuItem-create',

@@ -228,6 +228,16 @@ export class OrderListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataService.unlockOrder(order, this.user.userName);
   }
 
+  changeWaitor(order: Order) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        'orderid': order.id,
+        'waitor': order.waiter
+      }
+    };
+    this.router.navigate(['work/change-waiter'], navigationExtras);
+  }
+
   test(order: Order) {
     this.dataService.test(order);
   }

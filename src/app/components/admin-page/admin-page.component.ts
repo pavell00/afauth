@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { AuthService } from '../../core/services/auth.service';
 import { User, Role } from '../../core/models/user';
@@ -18,7 +18,7 @@ import { switchMap, map } from 'rxjs/operators';
     ]),
   ],
 })
-export class AdminPageComponent implements OnInit {
+export class AdminPageComponent implements OnInit, OnDestroy {
   users: User[] = [];
   roles: Role[] = [];
   res: any[] = [];

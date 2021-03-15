@@ -65,9 +65,9 @@
           <mat-icon>lock_open</mat-icon>
           <span>Открыть</span>
         </button>
-        <button mat-menu-item (click)="test(element)" *ngIf="isGetRight"> 
-          <mat-icon>build</mat-icon>
-          <span>Test</span>
+        <button mat-menu-item (click)="changeWaitor(element)" *ngIf="isGetRight"> 
+          <mat-icon>transfer_within_a_station</mat-icon>
+          <span>Изменить офц.</span>
         </button>
       </mat-menu>
 <!--  <button mat-mini-fab color="warn" (click)="deleteOrder(element.id)">

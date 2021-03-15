@@ -22,6 +22,7 @@ import { TrashComponent } from './components/trash/trash.component';
 import { CanChangeMenuGuard } from './core/guards/canChangeMenu.guards';
 import { SignInUpComponent } from './components/sign-in-up/sign-in-up.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { ChangeWaiterComponent } from './components/change-waiter/change-waiter.component';
 
 const routes: Routes = [
   { path: 'sign-in-up', component: SignInUpComponent},
@@ -35,6 +36,7 @@ const routes: Routes = [
     { path: 'menuItem-create', component: MenuItemCreateComponent, canActivate: [CanChangeMenuGuard] },
     { path: 'order-create', component: OrderCreateComponent },
     { path: 'print-form', component: PrintFormComponent },
+    { path: 'change-waiter', component: ChangeWaiterComponent, canActivate: [CanChangeMenuGuard] }
   ] },
   //{ path: 'work/order-detail', component: OrderDetailComponent },
   { path: 'admin-page', component: AdminPageComponent, canActivate: [CanViewDeletedMenuItemGuard] },

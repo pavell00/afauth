@@ -29,6 +29,7 @@ import { TrashComponent } from './components/trash/trash.component';
 import { SignInUpComponent } from './components/sign-in-up/sign-in-up.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import { SplitEmailPipe } from './pipes/split-email.pipe';
+import { ChangeWaiterComponent } from './components/change-waiter/change-waiter.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { SplitEmailPipe } from './pipes/split-email.pipe';
     TrashComponent,
     SignInUpComponent,
     ReportsComponent,
-    SplitEmailPipe
+    SplitEmailPipe,
+    ChangeWaiterComponent
   ],
   imports: [
     BrowserModule,
