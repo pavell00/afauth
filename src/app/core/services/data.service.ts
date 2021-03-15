@@ -335,15 +335,15 @@ export class DataService {
      ).subscribe(restaurants => console.log(restaurants));
   }
 
-  async changeWaitor(orderId: string, newWaitor: string) {
+  async changeWaitor(orderId: string, newWaiter: string) {
     var lineRef = this.firestore.collection('orders').doc(orderId)
     try {
       await lineRef.set({
-        waiter: newWaitor,
+        waiter: newWaiter,
       }, {merge: true})
       this.openSnackBar('Обновление элемента', 'завершено...');
     } catch (error) {
-      console.error("Error opening Order status: ", error);
+      console.error("Error update waitor value: ", error);
     } 
   }
 }
