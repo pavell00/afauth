@@ -28,6 +28,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { TrashComponent } from './components/trash/trash.component';
 import { SignInUpComponent } from './components/sign-in-up/sign-in-up.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { SplitEmailPipe } from './pipes/split-email.pipe';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ReportsComponent } from './components/reports/reports.component';
     PrintFormComponent,
     TrashComponent,
     SignInUpComponent,
-    ReportsComponent
+    ReportsComponent,
+    SplitEmailPipe
   ],
   imports: [
     BrowserModule,
