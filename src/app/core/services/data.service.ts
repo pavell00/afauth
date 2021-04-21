@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter, map, tap, switchMap, combineLatest, combineAll } from 'rxjs/operators'
+import { filter, map, tap, switchMap, combineLatest, mergeMap, combineAll } from 'rxjs/operators'
 import { menuItem } from '../models/menuItem';
 import { Order } from '../models/order';
 import { User } from '../models/user';
@@ -321,18 +321,38 @@ export class DataService {
   }
 
   test(order: Order) {
-    return this.firestore.collection('orders').doc(order.id).get()
+    return this.firestore.collection('orders').doc(order.id).snapshotChanges()
     .pipe(
-      switchMap((order: Order) => { 
-        const res = this.firestore
-            .collection(`orders/${order.id}/lines`).get()
-            .pipe(
-              map(name => Object.assign(order, {name}))
-            ); 
+      map(doc => doc.payload.data()),
+      switchMap((ord: Order) => { 
+        let res = this.firestore
+          .collection('orders').doc(ord.id).collection("lines").snapshotChanges()
+            //.collection(`orders/${order.id}/lines`).get()
+          .pipe(
+            map(name => Object.assign(ord, {name}))
+          ); 
     
         return combineLatest(res);
       })
      ).subscribe(restaurants => console.log(restaurants));
+  }
+
+  rep_groupByMenu(order: Order) {
+    return this.firestore.collection('orders').doc(order.id).snapshotChanges()
+    .pipe(
+      map(doc => doc.payload.data()),
+      mergeMap((ord: Order) => 
+         {
+           return this.firestore.collection(`orders/${ord.id}/lines`).doc
+          }
+       )
+     ) 
+  }
+
+  test2(order: Order) {
+    return this.firestore.collection('orders').doc(order.id)
+      .collection("lines").snapshotChanges();
+
   }
 
   async changeWaitor(orderId: string, newWaiter: string) {

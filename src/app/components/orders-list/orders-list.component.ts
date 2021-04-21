@@ -239,6 +239,14 @@ export class OrderListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   test(order: Order) {
+/*     this.dataService.test2(order).subscribe(actionArray => {
+      actionArray.map(item => {
+        console.log(item.payload.doc.data());
+      });
+    }); */
+/*     this.dataService.rep_groupByMenu(order).subscribe(
+      res => console.log(res)
+    ); */
     this.dataService.test(order);
   }
 

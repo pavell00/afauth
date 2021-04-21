@@ -57,9 +57,10 @@ export class ReportsComponent implements OnInit, OnDestroy {
         });
         this.total_sum = this.sum_orders_done + this.sum_orders_inwork;
         this.amount_orders = this.amount_orders_done + this.amount_orders_inwork;
+        //group by menu name
+
       })
-    
-  }
+    }
 
   ngOnDestroy(){
     this.subscription.unsubscribe();
